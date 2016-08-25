@@ -11,6 +11,9 @@
 #import "UIView+MJExtension.h"
 @interface ViewController ()
 @property (nonatomic,weak) ChooseLocationView * chooseLocationView;
+
+@property (weak, nonatomic) IBOutlet UILabel *addresslabel;
+
 @end
 
 @implementation ViewController
@@ -21,16 +24,20 @@
     ChooseLocationView * chooseLocationView = [[ChooseLocationView alloc]initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 400, [UIScreen mainScreen].bounds.size.width, 400)];
     [self.view addSubview:chooseLocationView];
     _chooseLocationView = chooseLocationView;
+    _chooseLocationView.chooseFinish = ^{
+    
+        _addresslabel.text = _chooseLocationView.address;
+    };
     _chooseLocationView.hidden = YES;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-- (IBAction)chooseLocation:(id)sender {
+
+- (IBAction)chooseLocation:(UIButton *)sender {
     
-  _chooseLocationView.hidden = !_chooseLocationView.hidden;
+    _chooseLocationView.hidden = !_chooseLocationView.hidden;
+
+    _addresslabel.text = _chooseLocationView.address;
+    
 }
 
 @end

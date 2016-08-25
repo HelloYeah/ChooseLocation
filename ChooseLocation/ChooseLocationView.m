@@ -9,10 +9,9 @@
 #import "ChooseLocationView.h"
 #import "AddressView.h"
 #import "UIView+Frame.h"
-//#define HYBarItemMargin 20  //地址标签栏之间的间距
+
 #define HYTopViewHeight 40    //顶部视图的高度
 #define HYTopTabbarHeight 30  //地址标签栏的高度
-
 #define HYScreenW [UIScreen mainScreen].bounds.size.width
 
 @interface ChooseLocationView ()<UITableViewDataSource,UITableViewDelegate>
@@ -60,6 +59,7 @@
     [topTabbar addSubview: separateLine1];
     separateLine1.top = topTabbar.height;
     topTabbar.backgroundColor = [UIColor orangeColor];
+    [_topTabbar layoutIfNeeded];
     
     UIView * underLine = [[UIView alloc] initWithFrame:CGRectZero];
     [topTabbar addSubview:underLine];
@@ -146,18 +146,83 @@
     return cell;
 }
 
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self addTopBarItem];
-    [self addTableView];
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     
     if([self.tableViews indexOfObject:tableView] == 0){
+        
+        UITableView * tableView0 = self.tableViews.firstObject;
+        NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
+        
+        if (indexPath0 != indexPath && indexPath0) {
+            
+            for (int i = 0; i < self.tableViews.count; i++) {
+                [self removeLastItem];
+            }
+            
+            [self addTopBarItem];
+            [self addTableView];
+            [self scrollToNextItem:self.dataSouce[indexPath.row]];
+            return indexPath;
+        }
+        
+        [self addTopBarItem];
+        [self addTableView];
         [self scrollToNextItem:self.dataSouce[indexPath.row]];
+        
     }else if ([self.tableViews indexOfObject:tableView] == 1){
+        
+        UITableView * tableView0 = self.tableViews[1];
+        NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
+        
+        if (indexPath0 != indexPath && indexPath0) {
+        
+            [self removeLastItem];
+            [self addTopBarItem];
+            [self addTableView];
+            [self scrollToNextItem:self.dataSouce1[indexPath.row]];
+            return indexPath;
+
+        }
+        [self addTopBarItem];
+        [self addTableView];
         [self scrollToNextItem:self.dataSouce1[indexPath.row]];
+        
     }else if ([self.tableViews indexOfObject:tableView] == 2){
-        [self scrollToNextItem:self.dataSouce2[indexPath.row]];
+        
+        NSInteger index = self.contentView.contentOffset.x / HYScreenW;
+        UIButton * btn = self.topTabbarItems[index];
+        [btn setTitle:self.dataSouce2[indexPath.row] forState:UIControlStateNormal];
+        [btn sizeToFit];
+        
+        UITableView * tableView0 = self.tableViews.firstObject;
+        NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
+        
+        UITableView * tableView1 = self.tableViews[1];
+        NSIndexPath * indexPath1 = [tableView1 indexPathForSelectedRow];
+        
+        self.address = [NSString stringWithFormat:@"%@ %@ %@",self.dataSouce[indexPath0.row],self.dataSouce1[indexPath1.row], self.dataSouce2[indexPath.row]];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.hidden = YES;
+            if (self.chooseFinish) {
+                self.chooseFinish();
+            }
+        });
     }
+    
+    return indexPath;
+}
+
+//当重新选择省或者市的时候，需要将下级视图移除。
+- (void)removeLastItem{
+
+    
+    [self.tableViews.lastObject performSelector:@selector(removeFromSuperview) withObject:nil withObject:nil];
+    [self.tableViews removeLastObject];
+    
+    [self.topTabbarItems.lastObject performSelector:@selector(removeFromSuperview) withObject:nil withObject:nil];
+    [self.topTabbarItems removeLastObject];
 }
 
 - (void)scrollToNextItem:(NSString *)preTitle{
@@ -204,7 +269,7 @@
         NSMutableArray * mArray = [[NSMutableArray alloc] init];
         for (int i = 0; i < 100; i ++) {
             
-            NSString * str = i % 2 ? [NSString stringWithFormat:@"地址0- %d",i] : [NSString stringWithFormat:@"地0-%d",i] ;
+            NSString * str = i % 2 ? [NSString stringWithFormat:@"省0- %d",i] : [NSString stringWithFormat:@"省0-%d",i] ;
             [mArray addObject:str];
         }
         _dataSouce = mArray;
@@ -218,7 +283,7 @@
         NSMutableArray * mArray = [[NSMutableArray alloc] init];
         for (int i = 0; i < 100; i ++) {
             
-            NSString * str = i % 2 ? [NSString stringWithFormat:@"地址1- %d",i] : [NSString stringWithFormat:@"地1-%d",i] ;
+            NSString * str = i % 2 ? [NSString stringWithFormat:@"市1- %d",i] : [NSString stringWithFormat:@"市1-%d",i] ;
             [mArray addObject:str];
         }
         _dataSouce1 = mArray;
@@ -232,7 +297,7 @@
         NSMutableArray * mArray = [[NSMutableArray alloc] init];
         for (int i = 0; i < 100; i ++) {
             
-            NSString * str = i % 2 ? [NSString stringWithFormat:@"地址2- %d",i] : [NSString stringWithFormat:@"地2-%d",i] ;
+            NSString * str = i % 2 ? [NSString stringWithFormat:@"区2- %d",i] : [NSString stringWithFormat:@"区2-%d",i] ;
             [mArray addObject:str];
         }
         _dataSouce2 = mArray;

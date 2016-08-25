@@ -10,4 +10,8 @@
 
 @interface ChooseLocationView : UIView
 
+@property (nonatomic, copy) NSString * address;
+
+@property (nonatomic, copy) void(^chooseFinish)();
+
 @end
