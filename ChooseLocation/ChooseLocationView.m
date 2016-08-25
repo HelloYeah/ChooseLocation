@@ -7,17 +7,21 @@
 //
 
 #import "ChooseLocationView.h"
-#import "UIView+MJExtension.h"
+#import "AddressView.h"
+#import "UIView+Frame.h"
+//#define HYBarItemMargin 20  //地址标签栏之间的间距
 #define HYTopViewHeight 40    //顶部视图的高度
 #define HYTopTabbarHeight 30  //地址标签栏的高度
-#define HYBarItemMargin 20  //地址标签栏之间的间距
+
 #define HYScreenW [UIScreen mainScreen].bounds.size.width
 
 @interface ChooseLocationView ()<UITableViewDataSource,UITableViewDelegate>
-@property (nonatomic,weak) UIView * topTabbar;
+@property (nonatomic,weak) AddressView * topTabbar;
 @property (nonatomic,weak) UIScrollView * contentView;
 @property (nonatomic,weak) UIView * underLine;
 @property (nonatomic,strong) NSArray * dataSouce;
+@property (nonatomic,strong) NSArray * dataSouce1;
+@property (nonatomic,strong) NSArray * dataSouce2;
 @property (nonatomic,strong) NSMutableArray * tableViews;
 @property (nonatomic,strong) NSMutableArray * topTabbarItems;
 @end
@@ -41,44 +45,43 @@
     titleLabel.text = @"所在地区";
     [titleLabel sizeToFit];
     [topView addSubview:titleLabel];
-    titleLabel.mj_centerY = topView.mj_h * 0.5;
-    titleLabel.mj_centerX = topView.mj_w * 0.5;
+    titleLabel.centerY = topView.height * 0.5;
+    titleLabel.centerX = topView.width * 0.5;
     UIView * separateLine = [self separateLine];
     [topView addSubview: separateLine];
-    separateLine.mj_y = topView.mj_h;
+    separateLine.top = topView.top;
     topView.backgroundColor = [UIColor greenColor];
     
-    UIView * topTabbar = [[UIView alloc]initWithFrame:CGRectMake(0, topView.mj_h, self.frame.size.width, HYTopViewHeight)];
+    AddressView * topTabbar = [[AddressView alloc]initWithFrame:CGRectMake(0, topView.height, self.frame.size.width, HYTopViewHeight)];
     [self addSubview:topTabbar];
     _topTabbar = topTabbar;
     [self addTopBarItem];
     UIView * separateLine1 = [self separateLine];
     [topTabbar addSubview: separateLine1];
-    separateLine1.mj_y = topTabbar.mj_h;
+    separateLine1.top = topTabbar.height;
     topTabbar.backgroundColor = [UIColor orangeColor];
     
     UIView * underLine = [[UIView alloc] initWithFrame:CGRectZero];
     [topTabbar addSubview:underLine];
     _underLine = underLine;
-    underLine.mj_h = 2.0f;
+    underLine.height = 2.0f;
     UIButton * btn = self.topTabbarItems.lastObject;
     [self changeUnderLineFrame:btn];
-    underLine.mj_y = separateLine1.mj_y - underLine.mj_h;
+    underLine.top = separateLine1.top - underLine.height;
     
     _underLine.backgroundColor = [UIColor greenColor];
     
-    UIScrollView * contentView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(topTabbar.frame), self.frame.size.width, self.mj_h - HYTopViewHeight - HYTopTabbarHeight)];
+    UIScrollView * contentView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(topTabbar.frame), self.frame.size.width, self.height - HYTopViewHeight - HYTopTabbarHeight)];
     contentView.contentSize = CGSizeMake(HYScreenW, 0);
     [self addSubview:contentView];
     _contentView = contentView;
     _contentView.pagingEnabled = YES;
-    
     [self addTableView];
 }
 
 - (void)addTableView{
 
-    UITableView * tabbleView = [[UITableView alloc]initWithFrame:CGRectMake(self.tableViews.count * HYScreenW, 0, HYScreenW, _contentView.mj_h)];
+    UITableView * tabbleView = [[UITableView alloc]initWithFrame:CGRectMake(self.tableViews.count * HYScreenW, 0, HYScreenW, _contentView.height)];
     [_contentView addSubview:tabbleView];
     [self.tableViews addObject:tabbleView];
     tabbleView.delegate = self;
@@ -90,12 +93,11 @@
     UIButton * topBarItem = [UIButton buttonWithType:UIButtonTypeCustom];
     [topBarItem setTitle:@"请选择" forState:UIControlStateNormal];
     [topBarItem sizeToFit];
-    [_topTabbar addSubview:topBarItem];
-    topBarItem.mj_centerY = _topTabbar.mj_h * 0.5;
-    UIView * lastView = self.topTabbarItems.lastObject;
-    topBarItem.mj_x = HYBarItemMargin + CGRectGetMaxX(lastView.frame);
+     topBarItem.centerY = _topTabbar.height * 0.5;
     [self.topTabbarItems addObject:topBarItem];
+    [_topTabbar addSubview:topBarItem];
     [topBarItem addTarget:self action:@selector(topBarItemClick:) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
 - (void)topBarItemClick:(UIButton *)btn{
@@ -110,13 +112,19 @@
 
 - (void)changeUnderLineFrame:(UIButton  *)btn{
    
-        _underLine.mj_x = btn.mj_x;
-        _underLine.mj_w = btn.mj_w;
+        _underLine.left = btn.left;
+        _underLine.width = btn.width;
    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
+    if([self.tableViews indexOfObject:tableView] == 0){
+        return self.dataSouce.count;
+    }else if ([self.tableViews indexOfObject:tableView] == 1){
+        return self.dataSouce1.count;
+    }else if ([self.tableViews indexOfObject:tableView] == 2){
+        return self.dataSouce2.count;
+    }
     return self.dataSouce.count;
 }
 
@@ -126,7 +134,15 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    cell.textLabel.text = self.dataSouce[indexPath.row];
+    
+    if([self.tableViews indexOfObject:tableView] == 0){
+        cell.textLabel.text = self.dataSouce[indexPath.row];
+    }else if ([self.tableViews indexOfObject:tableView] == 1){
+        cell.textLabel.text = self.dataSouce1[indexPath.row];
+    }else if ([self.tableViews indexOfObject:tableView] == 2){
+        cell.textLabel.text = self.dataSouce2[indexPath.row];
+    }
+    
     return cell;
 }
 
@@ -134,8 +150,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self addTopBarItem];
     [self addTableView];
-    [self scrollToNextItem:self.dataSouce[indexPath.row]];
     
+    if([self.tableViews indexOfObject:tableView] == 0){
+        [self scrollToNextItem:self.dataSouce[indexPath.row]];
+    }else if ([self.tableViews indexOfObject:tableView] == 1){
+        [self scrollToNextItem:self.dataSouce1[indexPath.row]];
+    }else if ([self.tableViews indexOfObject:tableView] == 2){
+        [self scrollToNextItem:self.dataSouce2[indexPath.row]];
+    }
 }
 
 - (void)scrollToNextItem:(NSString *)preTitle{
@@ -143,12 +165,14 @@
     NSInteger index = self.contentView.contentOffset.x / HYScreenW;
     UIButton * btn = self.topTabbarItems[index];
     [btn setTitle:preTitle forState:UIControlStateNormal];
+    [btn sizeToFit];
+    [_topTabbar layoutIfNeeded];
     [UIView animateWithDuration:1.0 animations:^{
         CGSize  size = self.contentView.contentSize;
         self.contentView.contentSize = CGSizeMake(size.width + HYScreenW, 0);
         CGPoint offset = self.contentView.contentOffset;
         self.contentView.contentOffset = CGPointMake(offset.x + HYScreenW, offset.y);
-        [self changeUnderLineFrame:self.topTabbarItems.lastObject];
+        [self changeUnderLineFrame: [self.topTabbar.subviews lastObject]];
     }];
 }
 
@@ -178,12 +202,41 @@
     
     if (_dataSouce == nil) {
         NSMutableArray * mArray = [[NSMutableArray alloc] init];
-        for (int i = 0; i < 10; i ++) {
-            NSString * str = [NSString stringWithFormat:@"地址 %d",i];
+        for (int i = 0; i < 100; i ++) {
+            
+            NSString * str = i % 2 ? [NSString stringWithFormat:@"地址0- %d",i] : [NSString stringWithFormat:@"地0-%d",i] ;
             [mArray addObject:str];
         }
         _dataSouce = mArray;
     }
     return _dataSouce;
+}
+
+- (NSArray *)dataSouce1{
+    
+    if (_dataSouce1 == nil) {
+        NSMutableArray * mArray = [[NSMutableArray alloc] init];
+        for (int i = 0; i < 100; i ++) {
+            
+            NSString * str = i % 2 ? [NSString stringWithFormat:@"地址1- %d",i] : [NSString stringWithFormat:@"地1-%d",i] ;
+            [mArray addObject:str];
+        }
+        _dataSouce1 = mArray;
+    }
+    return _dataSouce1;
+}
+
+- (NSArray *)dataSouce2{
+    
+    if (_dataSouce2 == nil) {
+        NSMutableArray * mArray = [[NSMutableArray alloc] init];
+        for (int i = 0; i < 100; i ++) {
+            
+            NSString * str = i % 2 ? [NSString stringWithFormat:@"地址2- %d",i] : [NSString stringWithFormat:@"地2-%d",i] ;
+            [mArray addObject:str];
+        }
+        _dataSouce2 = mArray;
+    }
+    return _dataSouce2;
 }
 @end

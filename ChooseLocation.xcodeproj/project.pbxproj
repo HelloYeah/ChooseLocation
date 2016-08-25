@@ -17,6 +17,8 @@
 		B48D89FD1D6AE14D00814887 /* ChooseLocationUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D89FC1D6AE14D00814887 /* ChooseLocationUITests.m */; };
 		B48D8A0D1D6AE37A00814887 /* ChooseLocationView.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D8A0C1D6AE37A00814887 /* ChooseLocationView.m */; };
 		B48D8A101D6AE75300814887 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D8A0F1D6AE75300814887 /* UIView+MJExtension.m */; };
+		B4AE7DAA1D6EF5B10044982A /* AddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4AE7DA91D6EF5B10044982A /* AddressView.m */; };
+		B4AE7DAD1D6EF8170044982A /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = B4AE7DAC1D6EF8170044982A /* UIView+Frame.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,10 @@
 		B48D8A0C1D6AE37A00814887 /* ChooseLocationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLocationView.m; sourceTree = "<group>"; };
 		B48D8A0E1D6AE75300814887 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		B48D8A0F1D6AE75300814887 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
+		B4AE7DA81D6EF5B10044982A /* AddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressView.h; sourceTree = "<group>"; };
+		B4AE7DA91D6EF5B10044982A /* AddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressView.m; sourceTree = "<group>"; };
+		B4AE7DAB1D6EF8170044982A /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
+		B4AE7DAC1D6EF8170044982A /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +158,10 @@
 			children = (
 				B48D8A0B1D6AE37A00814887 /* ChooseLocationView.h */,
 				B48D8A0C1D6AE37A00814887 /* ChooseLocationView.m */,
+				B4AE7DAB1D6EF8170044982A /* UIView+Frame.h */,
+				B4AE7DAC1D6EF8170044982A /* UIView+Frame.m */,
+				B4AE7DA81D6EF5B10044982A /* AddressView.h */,
+				B4AE7DA91D6EF5B10044982A /* AddressView.m */,
 				B48D8A0E1D6AE75300814887 /* UIView+MJExtension.h */,
 				B48D8A0F1D6AE75300814887 /* UIView+MJExtension.m */,
 			);
@@ -291,6 +301,8 @@
 				B48D8A0D1D6AE37A00814887 /* ChooseLocationView.m in Sources */,
 				B48D8A101D6AE75300814887 /* UIView+MJExtension.m in Sources */,
 				B48D89DF1D6AE14D00814887 /* ViewController.m in Sources */,
+				B4AE7DAD1D6EF8170044982A /* UIView+Frame.m in Sources */,
+				B4AE7DAA1D6EF5B10044982A /* AddressView.m in Sources */,
 				B48D89DC1D6AE14D00814887 /* AppDelegate.m in Sources */,
 				B48D89D91D6AE14D00814887 /* main.m in Sources */,
 			);
@@ -516,6 +528,7 @@
 				B48D8A031D6AE14D00814887 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B48D8A041D6AE14D00814887 /* Build configuration list for PBXNativeTarget "ChooseLocationTests" */ = {
 			isa = XCConfigurationList;
@@ -524,6 +537,7 @@
 				B48D8A061D6AE14D00814887 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B48D8A071D6AE14D00814887 /* Build configuration list for PBXNativeTarget "ChooseLocationUITests" */ = {
 			isa = XCConfigurationList;
@@ -532,6 +546,7 @@
 				B48D8A091D6AE14D00814887 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
