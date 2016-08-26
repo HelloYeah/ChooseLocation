@@ -80,13 +80,16 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     [self addTableView];
 }
 
+#pragma mark 添加一个列表
 - (void)addTableView{
 
     UITableView * tabbleView = [[UITableView alloc]initWithFrame:CGRectMake(self.tableViews.count * HYScreenW, 0, HYScreenW, _contentView.height)];
     [_contentView addSubview:tabbleView];
     [self.tableViews addObject:tabbleView];
+    tabbleView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tabbleView.delegate = self;
     tabbleView.dataSource = self;
+    tabbleView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
 }
 
 - (void)addTopBarItem{
@@ -119,6 +122,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
     if([self.tableViews indexOfObject:tableView] == 0){
         return self.dataSouce.count;
     }else if ([self.tableViews indexOfObject:tableView] == 1){
@@ -135,18 +139,22 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    
+   
+    //省级别
     if([self.tableViews indexOfObject:tableView] == 0){
+        
         cell.textLabel.text = self.dataSouce[indexPath.row][@"name"];
+        
+     //市级别
     }else if ([self.tableViews indexOfObject:tableView] == 1){
+        
         if ([self.dataSouce1[indexPath.row] isKindOfClass:[NSString class]]) {
             cell.textLabel.text = self.dataSouce1[indexPath.row];
-
         }else{
             cell.textLabel.text = self.dataSouce1[indexPath.row][@"name"];
         }
         
-        
+    //区级别
     }else if ([self.tableViews indexOfObject:tableView] == 2){
         cell.textLabel.text = self.dataSouce2[indexPath.row];
     }
@@ -173,14 +181,11 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
             for (int i = 0; i < self.tableViews.count; i++) {
                 [self removeLastItem];
             }
-            
             [self addTopBarItem];
             [self addTableView];
             [self scrollToNextItem:self.dataSouce[indexPath.row][@"name"]];
-            
             return indexPath;
         }
-        
         [self addTopBarItem];
         [self addTableView];
         [self scrollToNextItem:self.dataSouce[indexPath.row][@"name"]];
@@ -192,23 +197,9 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         
         if (indexPath0 != indexPath && indexPath0) {
         
+            //如果发现省级别字典里sub关联的数组只有一个元素,说明是直辖市,这时2级界面为区级别
             if ([self.dataSouce1[indexPath.row] isKindOfClass:[NSString class]]){
-                NSInteger index = self.contentView.contentOffset.x / HYScreenW;
-                UIButton * btn = self.topTabbarItems[index];
-                [btn setTitle:self.dataSouce1[indexPath.row] forState:UIControlStateNormal];
-                [btn sizeToFit];
-                [_topTabbar layoutIfNeeded];
-                
-                UITableView * tableView0 = self.tableViews.firstObject;
-                NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
-                
-                self.address = [NSString stringWithFormat:@"%@  %@",self.dataSouce[indexPath0.row][@"name"], self.dataSouce1[indexPath.row]];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    self.hidden = YES;
-                    if (self.chooseFinish) {
-                        self.chooseFinish();
-                    }
-                });
+                [self setUpAddress:self.dataSouce1[indexPath.row]];
                 return indexPath;
             }
             
@@ -222,23 +213,8 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         }
 
         if ([self.dataSouce1[indexPath.row] isKindOfClass:[NSString class]]){
-            NSInteger index = self.contentView.contentOffset.x / HYScreenW;
-            UIButton * btn = self.topTabbarItems[index];
-            [btn setTitle:self.dataSouce1[indexPath.row] forState:UIControlStateNormal];
-            [btn sizeToFit];
-            [_topTabbar layoutIfNeeded];
             
-            UITableView * tableView0 = self.tableViews.firstObject;
-            NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
-            
-            self.address = [NSString stringWithFormat:@"%@  %@",self.dataSouce[indexPath0.row][@"name"], self.dataSouce1[indexPath.row]];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                self.hidden = YES;
-                if (self.chooseFinish) {
-                    self.chooseFinish();
-                }
-            });
-
+            [self setUpAddress:self.dataSouce1[indexPath.row]];
             
         }else{
             
@@ -251,36 +227,39 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         
     }else if ([self.tableViews indexOfObject:tableView] == 2){
         
-        NSInteger index = self.contentView.contentOffset.x / HYScreenW;
-        UIButton * btn = self.topTabbarItems[index];
-        [btn setTitle:self.dataSouce2[indexPath.row] forState:UIControlStateNormal];
-        [btn sizeToFit];
-        [_topTabbar layoutIfNeeded];
-        
-        
-        UITableView * tableView0 = self.tableViews.firstObject;
-        NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
-        
-        UITableView * tableView1 = self.tableViews[1];
-        NSIndexPath * indexPath1 = [tableView1 indexPathForSelectedRow];
-        
-        self.address = [NSString stringWithFormat:@"%@ %@ %@",self.dataSouce[indexPath0.row][@"name"],self.dataSouce1[indexPath1.row][@"name"], self.dataSouce2[indexPath.row]];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            self.hidden = YES;
-            if (self.chooseFinish) {
-                self.chooseFinish();
-            }
-        });
+        [self setUpAddress:self.dataSouce2[indexPath.row]];
     }
     
     return indexPath;
 }
 
+- (void)setUpAddress:(NSString *)address{
+
+    NSInteger index = self.contentView.contentOffset.x / HYScreenW;
+    UIButton * btn = self.topTabbarItems[index];
+    [btn setTitle:address forState:UIControlStateNormal];
+    [btn sizeToFit];
+    [_topTabbar layoutIfNeeded];
+
+    NSMutableString * addressStr = [[NSMutableString alloc] init];
+    for (UIButton * btn  in self.topTabbarItems) {
+        
+        [addressStr appendString:btn.currentTitle];
+        [addressStr appendString:@" "];
+    }
+    self.address = addressStr;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.hidden = YES;
+        if (self.chooseFinish) {
+            self.chooseFinish();
+        }
+    });
+}
+
 //当重新选择省或者市的时候，需要将下级视图移除。
 - (void)removeLastItem{
 
-    
     [self.tableViews.lastObject performSelector:@selector(removeFromSuperview) withObject:nil withObject:nil];
     [self.tableViews removeLastObject];
     
@@ -326,6 +305,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     return _topTabbarItems;
 }
 
+//省级别数据源
 - (NSArray *)dataSouce{
     
     if (_dataSouce == nil) {
@@ -337,6 +317,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     return _dataSouce;
 }
 
+//市级别数据源
 - (NSArray *)dataSouce1{
     
     if (_dataSouce1 == nil) {
@@ -346,6 +327,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     return _dataSouce1;
 }
 
+//区级别数据源
 - (NSArray *)dataSouce2{
     
     if (_dataSouce2 == nil) {
@@ -354,4 +336,5 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     }
     return _dataSouce2;
 }
+
 @end
