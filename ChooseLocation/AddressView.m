@@ -8,8 +8,8 @@
 
 #import "AddressView.h"
 #import "UIView+Frame.h"
-#define HYBarItemMargin 20  //地址标签栏之间的间距
 
+static  CGFloat  const  HYBarItemMargin = 20;
 @interface AddressView ()
 @property (nonatomic,strong) NSMutableArray * btnArray;
 @end
@@ -17,7 +17,7 @@
 @implementation AddressView
 
 - (void)layoutSubviews{
-    
+   
     [super layoutSubviews];
     
     for (NSInteger i = 0; i <= self.btnArray.count - 1 ; i++) {

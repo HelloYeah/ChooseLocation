@@ -10,9 +10,10 @@
 #import "AddressView.h"
 #import "UIView+Frame.h"
 
-#define HYTopViewHeight 40    //顶部视图的高度
-#define HYTopTabbarHeight 30  //地址标签栏的高度
 #define HYScreenW [UIScreen mainScreen].bounds.size.width
+
+static  CGFloat  const  kHYTopViewHeight = 40; //顶部视图的高度
+static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 
 @interface ChooseLocationView ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,weak) AddressView * topTabbar;
@@ -38,7 +39,7 @@
 
 - (void)setUp{
     
-    UIView * topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, HYTopViewHeight)];
+    UIView * topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, kHYTopViewHeight)];
     [self addSubview:topView];
     UILabel * titleLabel = [[UILabel alloc]init];
     titleLabel.text = @"所在地区";
@@ -51,7 +52,7 @@
     separateLine.top = topView.top;
     topView.backgroundColor = [UIColor greenColor];
     
-    AddressView * topTabbar = [[AddressView alloc]initWithFrame:CGRectMake(0, topView.height, self.frame.size.width, HYTopViewHeight)];
+    AddressView * topTabbar = [[AddressView alloc]initWithFrame:CGRectMake(0, topView.height, self.frame.size.width, kHYTopViewHeight)];
     [self addSubview:topTabbar];
     _topTabbar = topTabbar;
     [self addTopBarItem];
@@ -71,7 +72,7 @@
     
     _underLine.backgroundColor = [UIColor greenColor];
     
-    UIScrollView * contentView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(topTabbar.frame), self.frame.size.width, self.height - HYTopViewHeight - HYTopTabbarHeight)];
+    UIScrollView * contentView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(topTabbar.frame), self.frame.size.width, self.height - kHYTopViewHeight - kHYTopTabbarHeight)];
     contentView.contentSize = CGSizeMake(HYScreenW, 0);
     [self addSubview:contentView];
     _contentView = contentView;

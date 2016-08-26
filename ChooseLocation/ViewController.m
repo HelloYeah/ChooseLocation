@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "ChooseLocationView.h"
-#import "UIView+MJExtension.h"
+
 @interface ViewController ()
 @property (nonatomic,weak) ChooseLocationView * chooseLocationView;
 
@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    ChooseLocationView * chooseLocationView = [[ChooseLocationView alloc]initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 400, [UIScreen mainScreen].bounds.size.width, 400)];
+    ChooseLocationView * chooseLocationView = [[ChooseLocationView alloc]initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 350, [UIScreen mainScreen].bounds.size.width, 350)];
     [self.view addSubview:chooseLocationView];
     _chooseLocationView = chooseLocationView;
     _chooseLocationView.chooseFinish = ^{
@@ -36,8 +36,6 @@
     
     _chooseLocationView.hidden = !_chooseLocationView.hidden;
 
-    _addresslabel.text = _chooseLocationView.address;
-    
 }
 
 @end
