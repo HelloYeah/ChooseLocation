@@ -137,9 +137,16 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     }
     
     if([self.tableViews indexOfObject:tableView] == 0){
-        cell.textLabel.text = self.dataSouce[indexPath.row];
+        cell.textLabel.text = self.dataSouce[indexPath.row][@"name"];
     }else if ([self.tableViews indexOfObject:tableView] == 1){
-        cell.textLabel.text = self.dataSouce1[indexPath.row];
+        if ([self.dataSouce1[indexPath.row] isKindOfClass:[NSString class]]) {
+            cell.textLabel.text = self.dataSouce1[indexPath.row];
+
+        }else{
+            cell.textLabel.text = self.dataSouce1[indexPath.row][@"name"];
+        }
+        
+        
     }else if ([self.tableViews indexOfObject:tableView] == 2){
         cell.textLabel.text = self.dataSouce2[indexPath.row];
     }
@@ -154,6 +161,12 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         
         UITableView * tableView0 = self.tableViews.firstObject;
         NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
+        NSArray *  subArray = self.dataSouce[indexPath.row][@"sub"];
+        if (subArray.count > 1) {
+            _dataSouce1 = subArray;
+        }if (subArray.count == 1){
+            _dataSouce1 = subArray.firstObject[@"sub"];
+        }
         
         if (indexPath0 != indexPath && indexPath0) {
             
@@ -163,13 +176,14 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
             
             [self addTopBarItem];
             [self addTableView];
-            [self scrollToNextItem:self.dataSouce[indexPath.row]];
+            [self scrollToNextItem:self.dataSouce[indexPath.row][@"name"]];
+            
             return indexPath;
         }
         
         [self addTopBarItem];
         [self addTableView];
-        [self scrollToNextItem:self.dataSouce[indexPath.row]];
+        [self scrollToNextItem:self.dataSouce[indexPath.row][@"name"]];
         
     }else if ([self.tableViews indexOfObject:tableView] == 1){
         
@@ -178,16 +192,62 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         
         if (indexPath0 != indexPath && indexPath0) {
         
+            if ([self.dataSouce1[indexPath.row] isKindOfClass:[NSString class]]){
+                NSInteger index = self.contentView.contentOffset.x / HYScreenW;
+                UIButton * btn = self.topTabbarItems[index];
+                [btn setTitle:self.dataSouce1[indexPath.row] forState:UIControlStateNormal];
+                [btn sizeToFit];
+                [_topTabbar layoutIfNeeded];
+                
+                UITableView * tableView0 = self.tableViews.firstObject;
+                NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
+                
+                self.address = [NSString stringWithFormat:@"%@  %@",self.dataSouce[indexPath0.row][@"name"], self.dataSouce1[indexPath.row]];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    self.hidden = YES;
+                    if (self.chooseFinish) {
+                        self.chooseFinish();
+                    }
+                });
+                return indexPath;
+            }
+            
             [self removeLastItem];
             [self addTopBarItem];
             [self addTableView];
-            [self scrollToNextItem:self.dataSouce1[indexPath.row]];
+            [self scrollToNextItem:self.dataSouce1[indexPath.row][@"name"]];
+            
             return indexPath;
 
         }
-        [self addTopBarItem];
-        [self addTableView];
-        [self scrollToNextItem:self.dataSouce1[indexPath.row]];
+
+        if ([self.dataSouce1[indexPath.row] isKindOfClass:[NSString class]]){
+            NSInteger index = self.contentView.contentOffset.x / HYScreenW;
+            UIButton * btn = self.topTabbarItems[index];
+            [btn setTitle:self.dataSouce1[indexPath.row] forState:UIControlStateNormal];
+            [btn sizeToFit];
+            [_topTabbar layoutIfNeeded];
+            
+            UITableView * tableView0 = self.tableViews.firstObject;
+            NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
+            
+            self.address = [NSString stringWithFormat:@"%@  %@",self.dataSouce[indexPath0.row][@"name"], self.dataSouce1[indexPath.row]];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                self.hidden = YES;
+                if (self.chooseFinish) {
+                    self.chooseFinish();
+                }
+            });
+
+            
+        }else{
+            
+            _dataSouce2 = self.dataSouce1[indexPath.row][@"sub"];
+            [self addTopBarItem];
+            [self addTableView];
+             [self scrollToNextItem:self.dataSouce1[indexPath.row][@"name"]];
+        }
+       
         
     }else if ([self.tableViews indexOfObject:tableView] == 2){
         
@@ -195,6 +255,8 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         UIButton * btn = self.topTabbarItems[index];
         [btn setTitle:self.dataSouce2[indexPath.row] forState:UIControlStateNormal];
         [btn sizeToFit];
+        [_topTabbar layoutIfNeeded];
+        
         
         UITableView * tableView0 = self.tableViews.firstObject;
         NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
@@ -202,7 +264,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         UITableView * tableView1 = self.tableViews[1];
         NSIndexPath * indexPath1 = [tableView1 indexPathForSelectedRow];
         
-        self.address = [NSString stringWithFormat:@"%@ %@ %@",self.dataSouce[indexPath0.row],self.dataSouce1[indexPath1.row], self.dataSouce2[indexPath.row]];
+        self.address = [NSString stringWithFormat:@"%@ %@ %@",self.dataSouce[indexPath0.row][@"name"],self.dataSouce1[indexPath1.row][@"name"], self.dataSouce2[indexPath.row]];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             self.hidden = YES;
@@ -267,13 +329,10 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 - (NSArray *)dataSouce{
     
     if (_dataSouce == nil) {
-        NSMutableArray * mArray = [[NSMutableArray alloc] init];
-        for (int i = 0; i < 100; i ++) {
-            
-            NSString * str = i % 2 ? [NSString stringWithFormat:@"省0- %d",i] : [NSString stringWithFormat:@"省0-%d",i] ;
-            [mArray addObject:str];
-        }
-        _dataSouce = mArray;
+        NSString * path = [[NSBundle mainBundle] pathForResource:@"address.plist" ofType:nil];
+        
+        NSDictionary * dict = [NSDictionary dictionaryWithContentsOfFile:path];
+        _dataSouce = dict[@"address"];
     }
     return _dataSouce;
 }
@@ -281,13 +340,8 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 - (NSArray *)dataSouce1{
     
     if (_dataSouce1 == nil) {
-        NSMutableArray * mArray = [[NSMutableArray alloc] init];
-        for (int i = 0; i < 100; i ++) {
-            
-            NSString * str = i % 2 ? [NSString stringWithFormat:@"市1- %d",i] : [NSString stringWithFormat:@"市1-%d",i] ;
-            [mArray addObject:str];
-        }
-        _dataSouce1 = mArray;
+  
+        _dataSouce1 = [NSArray array];
     }
     return _dataSouce1;
 }
@@ -295,13 +349,8 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 - (NSArray *)dataSouce2{
     
     if (_dataSouce2 == nil) {
-        NSMutableArray * mArray = [[NSMutableArray alloc] init];
-        for (int i = 0; i < 100; i ++) {
-            
-            NSString * str = i % 2 ? [NSString stringWithFormat:@"区2- %d",i] : [NSString stringWithFormat:@"区2-%d",i] ;
-            [mArray addObject:str];
-        }
-        _dataSouce2 = mArray;
+     
+        _dataSouce2 = [NSArray array];
     }
     return _dataSouce2;
 }

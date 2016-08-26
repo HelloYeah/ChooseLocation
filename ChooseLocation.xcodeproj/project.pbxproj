@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B4055B8E1D6FEAFE00CF8ED4 /* address.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4055B8D1D6FEAFE00CF8ED4 /* address.plist */; };
 		B48D89D91D6AE14D00814887 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D89D81D6AE14D00814887 /* main.m */; };
 		B48D89DC1D6AE14D00814887 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D89DB1D6AE14D00814887 /* AppDelegate.m */; };
 		B48D89DF1D6AE14D00814887 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D89DE1D6AE14D00814887 /* ViewController.m */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B4055B8D1D6FEAFE00CF8ED4 /* address.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = address.plist; sourceTree = "<group>"; };
 		B48D89D41D6AE14D00814887 /* ChooseLocation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChooseLocation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B48D89D81D6AE14D00814887 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B48D89DA1D6AE14D00814887 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		B48D89D71D6AE14D00814887 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B4055B8D1D6FEAFE00CF8ED4 /* address.plist */,
 				B48D89D81D6AE14D00814887 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -267,6 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B48D89E71D6AE14D00814887 /* LaunchScreen.storyboard in Resources */,
+				B4055B8E1D6FEAFE00CF8ED4 /* address.plist in Resources */,
 				B48D89E41D6AE14D00814887 /* Assets.xcassets in Resources */,
 				B48D89E21D6AE14D00814887 /* Main.storyboard in Resources */,
 			);
