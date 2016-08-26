@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		B4055B8E1D6FEAFE00CF8ED4 /* address.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4055B8D1D6FEAFE00CF8ED4 /* address.plist */; };
+		B43B5C141D701DCE0095CEA7 /* AddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B43B5C121D701DCE0095CEA7 /* AddressTableViewCell.m */; };
+		B43B5C151D701DCE0095CEA7 /* AddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B43B5C131D701DCE0095CEA7 /* AddressTableViewCell.xib */; };
+		B43B5C181D7021340095CEA7 /* AddressItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B43B5C171D7021340095CEA7 /* AddressItem.m */; };
 		B48D89D91D6AE14D00814887 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D89D81D6AE14D00814887 /* main.m */; };
 		B48D89DC1D6AE14D00814887 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D89DB1D6AE14D00814887 /* AppDelegate.m */; };
 		B48D89DF1D6AE14D00814887 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D89DE1D6AE14D00814887 /* ViewController.m */; };
@@ -40,6 +43,11 @@
 
 /* Begin PBXFileReference section */
 		B4055B8D1D6FEAFE00CF8ED4 /* address.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = address.plist; sourceTree = "<group>"; };
+		B43B5C111D701DCE0095CEA7 /* AddressTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressTableViewCell.h; sourceTree = "<group>"; };
+		B43B5C121D701DCE0095CEA7 /* AddressTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressTableViewCell.m; sourceTree = "<group>"; };
+		B43B5C131D701DCE0095CEA7 /* AddressTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressTableViewCell.xib; sourceTree = "<group>"; };
+		B43B5C161D7021340095CEA7 /* AddressItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressItem.h; sourceTree = "<group>"; };
+		B43B5C171D7021340095CEA7 /* AddressItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressItem.m; sourceTree = "<group>"; };
 		B48D89D41D6AE14D00814887 /* ChooseLocation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChooseLocation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B48D89D81D6AE14D00814887 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B48D89DA1D6AE14D00814887 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -158,6 +166,11 @@
 			children = (
 				B48D8A0B1D6AE37A00814887 /* ChooseLocationView.h */,
 				B48D8A0C1D6AE37A00814887 /* ChooseLocationView.m */,
+				B43B5C111D701DCE0095CEA7 /* AddressTableViewCell.h */,
+				B43B5C121D701DCE0095CEA7 /* AddressTableViewCell.m */,
+				B43B5C131D701DCE0095CEA7 /* AddressTableViewCell.xib */,
+				B43B5C161D7021340095CEA7 /* AddressItem.h */,
+				B43B5C171D7021340095CEA7 /* AddressItem.m */,
 				B4AE7DAB1D6EF8170044982A /* UIView+Frame.h */,
 				B4AE7DAC1D6EF8170044982A /* UIView+Frame.m */,
 				B4AE7DA81D6EF5B10044982A /* AddressView.h */,
@@ -270,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B48D89E71D6AE14D00814887 /* LaunchScreen.storyboard in Resources */,
+				B43B5C151D701DCE0095CEA7 /* AddressTableViewCell.xib in Resources */,
 				B4055B8E1D6FEAFE00CF8ED4 /* address.plist in Resources */,
 				B48D89E41D6AE14D00814887 /* Assets.xcassets in Resources */,
 				B48D89E21D6AE14D00814887 /* Main.storyboard in Resources */,
@@ -302,6 +316,8 @@
 				B4AE7DAD1D6EF8170044982A /* UIView+Frame.m in Sources */,
 				B4AE7DAA1D6EF5B10044982A /* AddressView.m in Sources */,
 				B48D89DC1D6AE14D00814887 /* AppDelegate.m in Sources */,
+				B43B5C181D7021340095CEA7 /* AddressItem.m in Sources */,
+				B43B5C141D701DCE0095CEA7 /* AddressTableViewCell.m in Sources */,
 				B48D89D91D6AE14D00814887 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
