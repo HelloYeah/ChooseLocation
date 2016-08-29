@@ -17,7 +17,7 @@
 static  CGFloat  const  kHYTopViewHeight = 40; //顶部视图的高度
 static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 
-@interface ChooseLocationView ()<UITableViewDataSource,UITableViewDelegate>
+@interface ChooseLocationView ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 @property (nonatomic,weak) AddressView * topTabbar;
 @property (nonatomic,weak) UIScrollView * contentView;
 @property (nonatomic,weak) UIView * underLine;
@@ -84,6 +84,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     _contentView = contentView;
     _contentView.pagingEnabled = YES;
     [self addTableView];
+    _contentView.delegate = self;
 }
 
 
@@ -165,11 +166,12 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     
     if([self.tableViews indexOfObject:tableView] == 0){
         
-        UITableView * tableView0 = self.tableViews.firstObject;
-        NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
+        NSIndexPath * indexPath0 = [tableView indexPathForSelectedRow];
+        
+        //第二级数据源
         _dataSouce1 = [self addressDictToDataSouce:self.dataSouce[indexPath.row][@"sub"]];
     
-        if (_dataSouce1.count == 1) {
+        if (_dataSouce1.count == 1) { //此时为直辖市，第二级的地名都是区级别
             NSMutableArray * mArray = [NSMutableArray array];
             for (NSString * name in _dataSouce1.firstObject[@"sub"]) {
                 AddressItem * item = [AddressItem initWithName:name isSelected:NO];
@@ -178,7 +180,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
             _dataSouce1 = mArray;
         }
         
-        //重新选择省,切换省.
+        //之前有选中省，重新选择省,切换省.
         if (indexPath0 != indexPath && indexPath0) {
             
             for (int i = 0; i < self.tableViews.count; i++) {
@@ -191,7 +193,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
             return indexPath;
         }
         
-        //第一次选择省
+        //之前未选中省，第一次选择省
         [self addTopBarItem];
         [self addTableView];
         AddressItem * item = self.dataSouce[indexPath.row][@"addressItem"];
@@ -199,9 +201,9 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         
     }else if ([self.tableViews indexOfObject:tableView] == 1){
         
-        UITableView * tableView0 = self.tableViews[1];
-        NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
         
+        
+        NSIndexPath * indexPath0 = [tableView indexPathForSelectedRow];
         //重新选择市,切换市.
         if (indexPath0 != indexPath && indexPath0) {
         
@@ -211,7 +213,13 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
                 [self setUpAddress:item.name];
                 return indexPath;
             }
-            
+            NSMutableArray * mArray = [NSMutableArray array];
+            NSArray * tempArray = _dataSouce1[indexPath.row][@"sub"];
+            for (NSString * name in tempArray) {
+                AddressItem * item = [AddressItem initWithName:name isSelected:NO];
+                [mArray addObject:item];
+            }
+            _dataSouce2 = mArray;
             [self removeLastItem];
             [self addTopBarItem];
             [self addTableView];
@@ -220,7 +228,8 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
             
             return indexPath;
         }
-
+        
+        
         //之前未选中市,第一次选择
         if ([self.dataSouce1[indexPath.row] isKindOfClass:[AddressItem class]]){//只有两级,此时self.dataSouce1装的是直辖市下面区的数组
             
@@ -267,6 +276,18 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     AddressItem * item = cell.item;
     item.isSelected = NO;
     cell.item = item;
+}
+
+#pragma mark - scrollViewDelegate
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    
+    if (scrollView == _contentView) {
+        NSInteger index = _contentView.contentOffset.x / HYScreenW;
+        [UIView animateWithDuration:0.25 animations:^{
+            [self changeUnderLineFrame:self.topTabbarItems[index]];
+        }];
+    }
 }
 
 #pragma mark - private 
