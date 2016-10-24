@@ -22,10 +22,11 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 @property (nonatomic,weak) UIScrollView * contentView;
 @property (nonatomic,weak) UIView * underLine;
 @property (nonatomic,strong) NSArray * dataSouce;
-@property (nonatomic,strong) NSArray * dataSouce1;
-@property (nonatomic,strong) NSArray * dataSouce2;
+@property (nonatomic,strong) NSArray * cityDataSouce;
+@property (nonatomic,strong) NSArray * districtDataSouce;
 @property (nonatomic,strong) NSMutableArray * tableViews;
 @property (nonatomic,strong) NSMutableArray * topTabbarItems;
+@property (nonatomic,weak) UIButton * selectedBtn;
 @end
 
 @implementation ChooseLocationView
@@ -38,8 +39,6 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     }
     return self;
 }
-
-
 
 #pragma mark - setUp UI
 
@@ -83,6 +82,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     [self addSubview:contentView];
     _contentView = contentView;
     _contentView.pagingEnabled = YES;
+    _contentView.backgroundColor = [UIColor whiteColor];
     [self addTableView];
 }
 
@@ -103,7 +103,8 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     
     UIButton * topBarItem = [UIButton buttonWithType:UIButtonTypeCustom];
     [topBarItem setTitle:@"请选择" forState:UIControlStateNormal];
-    [topBarItem setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [topBarItem setTitleColor:[UIColor colorWithRed:43/255.0 green:43/255.0 blue:43/255.0 alpha:1] forState:UIControlStateNormal];
+    [topBarItem setTitleColor:[UIColor orangeColor] forState:UIControlStateSelected];
     [topBarItem sizeToFit];
      topBarItem.centerY = _topTabbar.height * 0.5;
     [self.topTabbarItems addObject:topBarItem];
@@ -118,9 +119,9 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     if([self.tableViews indexOfObject:tableView] == 0){
         return self.dataSouce.count;
     }else if ([self.tableViews indexOfObject:tableView] == 1){
-        return self.dataSouce1.count;
+        return self.cityDataSouce.count;
     }else if ([self.tableViews indexOfObject:tableView] == 2){
-        return self.dataSouce2.count;
+        return self.districtDataSouce.count;
     }
     return self.dataSouce.count;
 }
@@ -142,18 +143,18 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     }else if ([self.tableViews indexOfObject:tableView] == 1){
          NSIndexPath * indexPath0 = [self.tableViews.firstObject indexPathForSelectedRow];
         if ([self addressDictToDataSouce:self.dataSouce[indexPath0.row][@"sub"]].count == 1) {
-            AddressItem * item = self.dataSouce1[indexPath.row];
+            AddressItem * item = self.cityDataSouce[indexPath.row];
             cell.item = item;
         }else{
-            AddressItem * item = self.dataSouce1[indexPath.row][@"addressItem"];
+            AddressItem * item = self.cityDataSouce[indexPath.row][@"addressItem"];
             cell.item = item;
         }
         
         
     //区级别
     }else if ([self.tableViews indexOfObject:tableView] == 2){
-//        cell.addressLabel.text = self.dataSouce2[indexPath.row];
-        AddressItem * item = self.dataSouce2[indexPath.row];
+//        cell.addressLabel.text = self.districtDataSouce[indexPath.row];
+        AddressItem * item = self.districtDataSouce[indexPath.row];
         cell.item = item;
     }
     
@@ -167,15 +168,15 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         
         UITableView * tableView0 = self.tableViews.firstObject;
         NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
-        _dataSouce1 = [self addressDictToDataSouce:self.dataSouce[indexPath.row][@"sub"]];
+        _cityDataSouce = [self addressDictToDataSouce:self.dataSouce[indexPath.row][@"sub"]];
     
-        if (_dataSouce1.count == 1) {
+        if (_cityDataSouce.count == 1) {
             NSMutableArray * mArray = [NSMutableArray array];
-            for (NSString * name in _dataSouce1.firstObject[@"sub"]) {
+            for (NSString * name in _cityDataSouce.firstObject[@"sub"]) {
                 AddressItem * item = [AddressItem initWithName:name isSelected:NO];
                 [mArray addObject:item];
             }
-            _dataSouce1 = mArray;
+            _cityDataSouce = mArray;
         }
         
         //重新选择省,切换省.
@@ -206,46 +207,56 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         if (indexPath0 != indexPath && indexPath0) {
         
             //如果发现省级别字典里sub关联的数组只有一个元素,说明是直辖市,这时2级界面为区级别
-            if ([self.dataSouce1[indexPath.row] isKindOfClass:[AddressItem class]]){
-                AddressItem * item = self.dataSouce1[indexPath.row];
+            if ([self.cityDataSouce[indexPath.row] isKindOfClass:[AddressItem class]]){
+                AddressItem * item = self.cityDataSouce[indexPath.row];
                 [self setUpAddress:item.name];
                 return indexPath;
             }
             
+            NSMutableArray * mArray = [NSMutableArray array];
+            NSArray * tempArray = _cityDataSouce[indexPath.row][@"sub"];
+            NSLog(@"%@",indexPath);
+            for (NSString * name in tempArray) {
+                AddressItem * item = [AddressItem initWithName:name isSelected:NO];
+                [mArray addObject:item];
+            }
+            _districtDataSouce = mArray;
+            
             [self removeLastItem];
             [self addTopBarItem];
             [self addTableView];
-            AddressItem * item = self.dataSouce1[indexPath.row][@"addressItem"];
+            AddressItem * item = self.cityDataSouce[indexPath.row][@"addressItem"];
             [self scrollToNextItem:item.name];
             
             return indexPath;
         }
 
         //之前未选中市,第一次选择
-        if ([self.dataSouce1[indexPath.row] isKindOfClass:[AddressItem class]]){//只有两级,此时self.dataSouce1装的是直辖市下面区的数组
+        if ([self.cityDataSouce[indexPath.row] isKindOfClass:[AddressItem class]]){//只有两级,此时self.cityDataSouce装的是直辖市下面区的数组
             
-            AddressItem * item = self.dataSouce1[indexPath.row];
+            AddressItem * item = self.cityDataSouce[indexPath.row];
             [self setUpAddress:item.name];
             
         }else{
     
             NSMutableArray * mArray = [NSMutableArray array];
-            NSArray * tempArray = _dataSouce1[indexPath.row][@"sub"];
+            NSArray * tempArray = _cityDataSouce[indexPath.row][@"sub"];
+            NSLog(@"%@",indexPath);
             for (NSString * name in tempArray) {
                 AddressItem * item = [AddressItem initWithName:name isSelected:NO];
                 [mArray addObject:item];
             }
-            _dataSouce2 = mArray;
+            _districtDataSouce = mArray;
     
             [self addTopBarItem];
             [self addTableView];
-             AddressItem * item = self.dataSouce1[indexPath.row][@"addressItem"];
+             AddressItem * item = self.cityDataSouce[indexPath.row][@"addressItem"];
             [self scrollToNextItem:item.name];
         }
        
     }else if ([self.tableViews indexOfObject:tableView] == 2){
         
-        AddressItem * item = self.dataSouce2[indexPath.row];
+        AddressItem * item = self.districtDataSouce[indexPath.row];
         [self setUpAddress:item.name];
     }
     
@@ -285,6 +296,9 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 //调整指示条位置
 - (void)changeUnderLineFrame:(UIButton  *)btn{
     
+    _selectedBtn.selected = NO;
+    btn.selected = YES;
+    _selectedBtn = btn;
     _underLine.left = btn.left;
     _underLine.width = btn.width;
 }
@@ -333,8 +347,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     [btn sizeToFit];
     [_topTabbar layoutIfNeeded];
     [UIView animateWithDuration:0.25 animations:^{
-        CGSize  size = self.contentView.contentSize;
-        self.contentView.contentSize = CGSizeMake(size.width + HYScreenW, 0);
+        self.contentView.contentSize = (CGSize){self.tableViews.count * HYScreenW,0};
         CGPoint offset = self.contentView.contentOffset;
         self.contentView.contentOffset = CGPointMake(offset.x + HYScreenW, offset.y);
         [self changeUnderLineFrame: [self.topTabbar.subviews lastObject]];
@@ -366,6 +379,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     }
     return _topTabbarItems;
 }
+
 
 //省级别数据源
 - (NSArray *)dataSouce{
@@ -403,23 +417,23 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 
 
 //市级别数据源
-- (NSArray *)dataSouce1{
+- (NSArray *)cityDataSouce{
     
-    if (_dataSouce1 == nil) {
+    if (_cityDataSouce == nil) {
   
-        _dataSouce1 = [NSArray array];
+        _cityDataSouce = [NSArray array];
     }
-    return _dataSouce1;
+    return _cityDataSouce;
 }
 
 //区级别数据源
-- (NSArray *)dataSouce2{
+- (NSArray *)districtDataSouce{
     
-    if (_dataSouce2 == nil) {
+    if (_districtDataSouce == nil) {
      
-        _dataSouce2 = [NSArray array];
+        _districtDataSouce = [NSArray array];
     }
-    return _dataSouce2;
+    return _districtDataSouce;
 }
 
 @end
