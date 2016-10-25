@@ -35,12 +35,8 @@
 #####其他注意点
 >1.点击灰色区域,取消地址选择,回到主界面
 
->2.京东用的是网络请求获取省市区信息,每点击一个cell,向服务器发送请求,获取下级信息.这里用的是本地plist表
+>2.京东用的是网络请求获取省市区信息,每点击一个cell,向服务器发送请求,获取下级信息.这里用的是本地json数据
 
-下面是plist表的格式
-
-
-![tmp4fa6b8b2.png](http://upload-images.jianshu.io/upload_images/1338042-0634bafac585c0db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 
