@@ -18,7 +18,7 @@
 static  CGFloat  const  kHYTopViewHeight = 40; //顶部视图的高度
 static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 
-@interface ChooseLocationView ()<UITableViewDataSource,UITableViewDelegate>
+@interface ChooseLocationView ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 @property (nonatomic,weak) AddressView * topTabbar;
 @property (nonatomic,weak) UIScrollView * contentView;
 @property (nonatomic,weak) UIView * underLine;
@@ -85,6 +85,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     _contentView.pagingEnabled = YES;
     _contentView.backgroundColor = [UIColor whiteColor];
     [self addTableView];
+    _contentView.delegate = self;
 }
 
 
@@ -151,6 +152,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     
     if([self.tableViews indexOfObject:tableView] == 0){
         
+
         //1.1 获取下一级别的数据源(市级别,如果是直辖市时,下级则为区级别)
         AddressItem * provinceItem = self.dataSouce[indexPath.row];
         self.cityDataSouce = [[CitiesDataTool sharedManager] queryAllRecordWithSheng:provinceItem.sheng];
@@ -158,6 +160,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         //1.1 判断是否是第一次选择,不是,则重新选择省,切换省.
         NSIndexPath * indexPath0 = [tableView indexPathForSelectedRow];
         if ([indexPath0 compare:indexPath] != NSOrderedSame && indexPath0) {
+
             
             for (int i = 0; i < self.tableViews.count; i++) {
                 [self removeLastItem];
@@ -170,7 +173,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         }
 
         
-        //第一次选择省
+        //之前未选中省，第一次选择省
         [self addTopBarItem];
         [self addTableView];
         AddressItem * item = self.dataSouce[indexPath.row];
@@ -178,6 +181,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         
     }else if ([self.tableViews indexOfObject:tableView] == 1){
         
+
         AddressItem * cityItem = self.cityDataSouce[indexPath.row];
         self.districtDataSouce = [[CitiesDataTool sharedManager] queryAllRecordWithSheng:cityItem.sheng Di:cityItem.di];
         NSIndexPath * indexPath0 = [tableView indexPathForSelectedRow];
@@ -188,10 +192,12 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
                 [self removeLastItem];
             }
 
+
             [self addTopBarItem];
             [self addTableView];
             [self scrollToNextItem:cityItem.name];
             return indexPath;
+
             
         }else if ([indexPath0 compare:indexPath] == NSOrderedSame && indexPath0){
         
@@ -228,6 +234,8 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     item.isSelected = NO;
     cell.item = item;
 }
+
+
 
 #pragma mark - private 
 
