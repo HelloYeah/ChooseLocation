@@ -20,8 +20,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[CitiesDataTool sharedManager] requestGetData];
-    
-
 }
 
 - (IBAction)chooseLocation:(UIButton *)sender {

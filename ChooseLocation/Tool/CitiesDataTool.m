@@ -126,7 +126,7 @@ static CitiesDataTool *shareInstance = nil;
         AddressItem * item = [[AddressItem alloc] initWithDict:dict];
         [self.dataArray addObject:item];
     }
-    if(self.dataArray.count > 0 && [self deleteTable] && [self createTable]){
+    if(self.dataArray.count > 0  && [self createTable]){
     
         [self insertRecords];
     }
