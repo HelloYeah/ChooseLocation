@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "ChooseLocationView.h"
-
+#import "CitiesDataTool.h"
 @interface ViewController ()<NSURLSessionDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic,strong) ChooseLocationView *chooseLocationView;
 @property (nonatomic,strong) UIView  *cover;
@@ -19,6 +19,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[CitiesDataTool sharedManager] requestGetData];
+    
 
 }
 
@@ -33,23 +35,20 @@
 
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    
     CGPoint point = [gestureRecognizer locationInView:gestureRecognizer.view];
     if (CGRectContainsPoint(_chooseLocationView.frame, point)){
-//        CGPoint point = [gestureRecognizer locationInView:_chooseLocationView];
-//        [_chooseLocationView hitTest:point withEvent:[[UIEvent alloc]init]];
         return NO;
     }
-
     return YES;
 }
-- (void)tapCover:(UITapGestureRecognizer *)tap{
 
+
+- (void)tapCover:(UITapGestureRecognizer *)tap{
     
-   
-        if (_chooseLocationView.chooseFinish) {
+    if (_chooseLocationView.chooseFinish) {
          _chooseLocationView.chooseFinish();
     }
-
 }
 
 

@@ -9,11 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @interface AddressItem : NSObject
-
+@property (nonatomic,copy) NSString * code;
+@property (nonatomic,copy) NSString * sheng;
+@property (nonatomic,copy) NSString * di;
+@property (nonatomic,copy) NSString * xian;
 @property (nonatomic,copy) NSString * name;
-
+@property (nonatomic,copy) NSString * level;
 @property (nonatomic,assign) BOOL  isSelected;
-
-+ (instancetype)initWithName:(NSString *)name isSelected:(BOOL)isSelected;
-
+- (instancetype)initWithDict:(NSDictionary *)dict;
 @end

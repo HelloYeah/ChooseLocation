@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B4055B8E1D6FEAFE00CF8ED4 /* address.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4055B8D1D6FEAFE00CF8ED4 /* address.plist */; };
-		B43B5C141D701DCE0095CEA7 /* AddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B43B5C121D701DCE0095CEA7 /* AddressTableViewCell.m */; };
-		B43B5C151D701DCE0095CEA7 /* AddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B43B5C131D701DCE0095CEA7 /* AddressTableViewCell.xib */; };
-		B43B5C181D7021340095CEA7 /* AddressItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B43B5C171D7021340095CEA7 /* AddressItem.m */; };
 		B48D89D91D6AE14D00814887 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D89D81D6AE14D00814887 /* main.m */; };
 		B48D89DC1D6AE14D00814887 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D89DB1D6AE14D00814887 /* AppDelegate.m */; };
 		B48D89DF1D6AE14D00814887 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D89DE1D6AE14D00814887 /* ViewController.m */; };
@@ -19,9 +15,22 @@
 		B48D89E71D6AE14D00814887 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B48D89E51D6AE14D00814887 /* LaunchScreen.storyboard */; };
 		B48D89F21D6AE14D00814887 /* ChooseLocationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D89F11D6AE14D00814887 /* ChooseLocationTests.m */; };
 		B48D89FD1D6AE14D00814887 /* ChooseLocationUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D89FC1D6AE14D00814887 /* ChooseLocationUITests.m */; };
-		B48D8A0D1D6AE37A00814887 /* ChooseLocationView.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D8A0C1D6AE37A00814887 /* ChooseLocationView.m */; };
-		B4AE7DAA1D6EF5B10044982A /* AddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4AE7DA91D6EF5B10044982A /* AddressView.m */; };
-		B4AE7DAD1D6EF8170044982A /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = B4AE7DAC1D6EF8170044982A /* UIView+Frame.m */; };
+		B4BB8FCF1DBEECBC00EF753C /* ChineseCities.json in Resources */ = {isa = PBXBuildFile; fileRef = B4BB8FCE1DBEECBC00EF753C /* ChineseCities.json */; };
+		B4BB8FDD1DBEED1B00EF753C /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FD21DBEED1B00EF753C /* FMDatabase.m */; };
+		B4BB8FDE1DBEED1B00EF753C /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FD41DBEED1B00EF753C /* FMDatabaseAdditions.m */; };
+		B4BB8FDF1DBEED1B00EF753C /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FD61DBEED1B00EF753C /* FMDatabasePool.m */; };
+		B4BB8FE01DBEED1B00EF753C /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FD81DBEED1B00EF753C /* FMDatabaseQueue.m */; };
+		B4BB8FE11DBEED1B00EF753C /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FDB1DBEED1B00EF753C /* FMResultSet.m */; };
+		B4BB8FE21DBEED1B00EF753C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4BB8FDC1DBEED1B00EF753C /* Info.plist */; };
+		B4BB8FE41DBEEDDB00EF753C /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B4BB8FE31DBEEDDB00EF753C /* libsqlite3.0.tbd */; };
+		B4BB8FE81DBEEEFB00EF753C /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FE71DBEEEFB00EF753C /* UIView+Frame.m */; };
+		B4BB8FF51DBEEF0300EF753C /* AddressItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FEC1DBEEF0300EF753C /* AddressItem.m */; };
+		B4BB8FF61DBEEF0300EF753C /* AddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FEF1DBEEF0300EF753C /* AddressTableViewCell.m */; };
+		B4BB8FF71DBEEF0300EF753C /* AddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4BB8FF01DBEEF0300EF753C /* AddressTableViewCell.xib */; };
+		B4BB8FF81DBEEF0300EF753C /* AddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FF21DBEEF0300EF753C /* AddressView.m */; };
+		B4BB8FF91DBEEF0300EF753C /* ChooseLocationView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FF41DBEEF0300EF753C /* ChooseLocationView.m */; };
+		B4BB8FFD1DBEF8D900EF753C /* Cities.json in Resources */ = {isa = PBXBuildFile; fileRef = B4BB8FFC1DBEF8D900EF753C /* Cities.json */; };
+		B4BB90011DBEF98F00EF753C /* CitiesDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB90001DBEF98F00EF753C /* CitiesDataTool.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,12 +51,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B4055B8D1D6FEAFE00CF8ED4 /* address.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = address.plist; sourceTree = "<group>"; };
-		B43B5C111D701DCE0095CEA7 /* AddressTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressTableViewCell.h; sourceTree = "<group>"; };
-		B43B5C121D701DCE0095CEA7 /* AddressTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressTableViewCell.m; sourceTree = "<group>"; };
-		B43B5C131D701DCE0095CEA7 /* AddressTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressTableViewCell.xib; sourceTree = "<group>"; };
-		B43B5C161D7021340095CEA7 /* AddressItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressItem.h; sourceTree = "<group>"; };
-		B43B5C171D7021340095CEA7 /* AddressItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressItem.m; sourceTree = "<group>"; };
 		B48D89D41D6AE14D00814887 /* ChooseLocation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChooseLocation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B48D89D81D6AE14D00814887 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B48D89DA1D6AE14D00814887 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -64,12 +67,34 @@
 		B48D89F81D6AE14D00814887 /* ChooseLocationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChooseLocationUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B48D89FC1D6AE14D00814887 /* ChooseLocationUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChooseLocationUITests.m; sourceTree = "<group>"; };
 		B48D89FE1D6AE14D00814887 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B48D8A0B1D6AE37A00814887 /* ChooseLocationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseLocationView.h; sourceTree = "<group>"; };
-		B48D8A0C1D6AE37A00814887 /* ChooseLocationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLocationView.m; sourceTree = "<group>"; };
-		B4AE7DA81D6EF5B10044982A /* AddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressView.h; sourceTree = "<group>"; };
-		B4AE7DA91D6EF5B10044982A /* AddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressView.m; sourceTree = "<group>"; };
-		B4AE7DAB1D6EF8170044982A /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
-		B4AE7DAC1D6EF8170044982A /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
+		B4BB8FCE1DBEECBC00EF753C /* ChineseCities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ChineseCities.json; sourceTree = "<group>"; };
+		B4BB8FD11DBEED1B00EF753C /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		B4BB8FD21DBEED1B00EF753C /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		B4BB8FD31DBEED1B00EF753C /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		B4BB8FD41DBEED1B00EF753C /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		B4BB8FD51DBEED1B00EF753C /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		B4BB8FD61DBEED1B00EF753C /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		B4BB8FD71DBEED1B00EF753C /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		B4BB8FD81DBEED1B00EF753C /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		B4BB8FD91DBEED1B00EF753C /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		B4BB8FDA1DBEED1B00EF753C /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		B4BB8FDB1DBEED1B00EF753C /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		B4BB8FDC1DBEED1B00EF753C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B4BB8FE31DBEEDDB00EF753C /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		B4BB8FE61DBEEEFB00EF753C /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
+		B4BB8FE71DBEEEFB00EF753C /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
+		B4BB8FEB1DBEEF0300EF753C /* AddressItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressItem.h; sourceTree = "<group>"; };
+		B4BB8FEC1DBEEF0300EF753C /* AddressItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressItem.m; sourceTree = "<group>"; };
+		B4BB8FEE1DBEEF0300EF753C /* AddressTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressTableViewCell.h; sourceTree = "<group>"; };
+		B4BB8FEF1DBEEF0300EF753C /* AddressTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressTableViewCell.m; sourceTree = "<group>"; };
+		B4BB8FF01DBEEF0300EF753C /* AddressTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressTableViewCell.xib; sourceTree = "<group>"; };
+		B4BB8FF11DBEEF0300EF753C /* AddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressView.h; sourceTree = "<group>"; };
+		B4BB8FF21DBEEF0300EF753C /* AddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressView.m; sourceTree = "<group>"; };
+		B4BB8FF31DBEEF0300EF753C /* ChooseLocationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseLocationView.h; sourceTree = "<group>"; };
+		B4BB8FF41DBEEF0300EF753C /* ChooseLocationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLocationView.m; sourceTree = "<group>"; };
+		B4BB8FFC1DBEF8D900EF753C /* Cities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Cities.json; sourceTree = "<group>"; };
+		B4BB8FFF1DBEF98F00EF753C /* CitiesDataTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CitiesDataTool.h; sourceTree = "<group>"; };
+		B4BB90001DBEF98F00EF753C /* CitiesDataTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CitiesDataTool.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4BB8FE41DBEEDDB00EF753C /* libsqlite3.0.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +126,7 @@
 		B48D89CB1D6AE14D00814887 = {
 			isa = PBXGroup;
 			children = (
+				B4BB8FE31DBEEDDB00EF753C /* libsqlite3.0.tbd */,
 				B48D89D61D6AE14D00814887 /* ChooseLocation */,
 				B48D89F01D6AE14D00814887 /* ChooseLocationTests */,
 				B48D89FB1D6AE14D00814887 /* ChooseLocationUITests */,
@@ -120,14 +147,13 @@
 		B48D89D61D6AE14D00814887 /* ChooseLocation */ = {
 			isa = PBXGroup;
 			children = (
-				B48D8A0A1D6AE31400814887 /* chooseLocationView */,
-				B48D89DA1D6AE14D00814887 /* AppDelegate.h */,
-				B48D89DB1D6AE14D00814887 /* AppDelegate.m */,
+				B4BB8FE91DBEEF0300EF753C /* ChooseLocation */,
+				B4BB8FE51DBEEEFB00EF753C /* Category */,
+				B4BB8FD01DBEED1B00EF753C /* fmdb */,
+				B4BB8FFE1DBEF97600EF753C /* Tool */,
 				B48D89DD1D6AE14D00814887 /* ViewController.h */,
 				B48D89DE1D6AE14D00814887 /* ViewController.m */,
-				B48D89E01D6AE14D00814887 /* Main.storyboard */,
 				B48D89E31D6AE14D00814887 /* Assets.xcassets */,
-				B48D89E51D6AE14D00814887 /* LaunchScreen.storyboard */,
 				B48D89E81D6AE14D00814887 /* Info.plist */,
 				B48D89D71D6AE14D00814887 /* Supporting Files */,
 			);
@@ -137,7 +163,12 @@
 		B48D89D71D6AE14D00814887 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B4055B8D1D6FEAFE00CF8ED4 /* address.plist */,
+				B48D89E01D6AE14D00814887 /* Main.storyboard */,
+				B48D89E51D6AE14D00814887 /* LaunchScreen.storyboard */,
+				B48D89DA1D6AE14D00814887 /* AppDelegate.h */,
+				B48D89DB1D6AE14D00814887 /* AppDelegate.m */,
+				B4BB8FCE1DBEECBC00EF753C /* ChineseCities.json */,
+				B4BB8FFC1DBEF8D900EF753C /* Cities.json */,
 				B48D89D81D6AE14D00814887 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -161,22 +192,73 @@
 			path = ChooseLocationUITests;
 			sourceTree = "<group>";
 		};
-		B48D8A0A1D6AE31400814887 /* chooseLocationView */ = {
+		B4BB8FD01DBEED1B00EF753C /* fmdb */ = {
 			isa = PBXGroup;
 			children = (
-				B48D8A0B1D6AE37A00814887 /* ChooseLocationView.h */,
-				B48D8A0C1D6AE37A00814887 /* ChooseLocationView.m */,
-				B43B5C111D701DCE0095CEA7 /* AddressTableViewCell.h */,
-				B43B5C121D701DCE0095CEA7 /* AddressTableViewCell.m */,
-				B43B5C131D701DCE0095CEA7 /* AddressTableViewCell.xib */,
-				B43B5C161D7021340095CEA7 /* AddressItem.h */,
-				B43B5C171D7021340095CEA7 /* AddressItem.m */,
-				B4AE7DAB1D6EF8170044982A /* UIView+Frame.h */,
-				B4AE7DAC1D6EF8170044982A /* UIView+Frame.m */,
-				B4AE7DA81D6EF5B10044982A /* AddressView.h */,
-				B4AE7DA91D6EF5B10044982A /* AddressView.m */,
+				B4BB8FD11DBEED1B00EF753C /* FMDatabase.h */,
+				B4BB8FD21DBEED1B00EF753C /* FMDatabase.m */,
+				B4BB8FD31DBEED1B00EF753C /* FMDatabaseAdditions.h */,
+				B4BB8FD41DBEED1B00EF753C /* FMDatabaseAdditions.m */,
+				B4BB8FD51DBEED1B00EF753C /* FMDatabasePool.h */,
+				B4BB8FD61DBEED1B00EF753C /* FMDatabasePool.m */,
+				B4BB8FD71DBEED1B00EF753C /* FMDatabaseQueue.h */,
+				B4BB8FD81DBEED1B00EF753C /* FMDatabaseQueue.m */,
+				B4BB8FD91DBEED1B00EF753C /* FMDB.h */,
+				B4BB8FDA1DBEED1B00EF753C /* FMResultSet.h */,
+				B4BB8FDB1DBEED1B00EF753C /* FMResultSet.m */,
+				B4BB8FDC1DBEED1B00EF753C /* Info.plist */,
 			);
-			name = chooseLocationView;
+			path = fmdb;
+			sourceTree = "<group>";
+		};
+		B4BB8FE51DBEEEFB00EF753C /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				B4BB8FE61DBEEEFB00EF753C /* UIView+Frame.h */,
+				B4BB8FE71DBEEEFB00EF753C /* UIView+Frame.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		B4BB8FE91DBEEF0300EF753C /* ChooseLocation */ = {
+			isa = PBXGroup;
+			children = (
+				B4BB8FEA1DBEEF0300EF753C /* Model */,
+				B4BB8FED1DBEEF0300EF753C /* View */,
+			);
+			path = ChooseLocation;
+			sourceTree = "<group>";
+		};
+		B4BB8FEA1DBEEF0300EF753C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B4BB8FEB1DBEEF0300EF753C /* AddressItem.h */,
+				B4BB8FEC1DBEEF0300EF753C /* AddressItem.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B4BB8FED1DBEEF0300EF753C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B4BB8FF31DBEEF0300EF753C /* ChooseLocationView.h */,
+				B4BB8FF41DBEEF0300EF753C /* ChooseLocationView.m */,
+				B4BB8FF11DBEEF0300EF753C /* AddressView.h */,
+				B4BB8FF21DBEEF0300EF753C /* AddressView.m */,
+				B4BB8FEE1DBEEF0300EF753C /* AddressTableViewCell.h */,
+				B4BB8FEF1DBEEF0300EF753C /* AddressTableViewCell.m */,
+				B4BB8FF01DBEEF0300EF753C /* AddressTableViewCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B4BB8FFE1DBEF97600EF753C /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				B4BB8FFF1DBEF98F00EF753C /* CitiesDataTool.h */,
+				B4BB90001DBEF98F00EF753C /* CitiesDataTool.m */,
+			);
+			path = Tool;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,10 +366,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B48D89E71D6AE14D00814887 /* LaunchScreen.storyboard in Resources */,
-				B43B5C151D701DCE0095CEA7 /* AddressTableViewCell.xib in Resources */,
-				B4055B8E1D6FEAFE00CF8ED4 /* address.plist in Resources */,
+				B4BB8FFD1DBEF8D900EF753C /* Cities.json in Resources */,
+				B4BB8FCF1DBEECBC00EF753C /* ChineseCities.json in Resources */,
 				B48D89E41D6AE14D00814887 /* Assets.xcassets in Resources */,
 				B48D89E21D6AE14D00814887 /* Main.storyboard in Resources */,
+				B4BB8FF71DBEEF0300EF753C /* AddressTableViewCell.xib in Resources */,
+				B4BB8FE21DBEED1B00EF753C /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,14 +396,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B48D8A0D1D6AE37A00814887 /* ChooseLocationView.m in Sources */,
 				B48D89DF1D6AE14D00814887 /* ViewController.m in Sources */,
-				B4AE7DAD1D6EF8170044982A /* UIView+Frame.m in Sources */,
-				B4AE7DAA1D6EF5B10044982A /* AddressView.m in Sources */,
+				B4BB8FF51DBEEF0300EF753C /* AddressItem.m in Sources */,
+				B4BB8FDD1DBEED1B00EF753C /* FMDatabase.m in Sources */,
+				B4BB8FF61DBEEF0300EF753C /* AddressTableViewCell.m in Sources */,
+				B4BB8FE01DBEED1B00EF753C /* FMDatabaseQueue.m in Sources */,
+				B4BB8FE81DBEEEFB00EF753C /* UIView+Frame.m in Sources */,
+				B4BB8FE11DBEED1B00EF753C /* FMResultSet.m in Sources */,
+				B4BB8FDF1DBEED1B00EF753C /* FMDatabasePool.m in Sources */,
 				B48D89DC1D6AE14D00814887 /* AppDelegate.m in Sources */,
-				B43B5C181D7021340095CEA7 /* AddressItem.m in Sources */,
-				B43B5C141D701DCE0095CEA7 /* AddressTableViewCell.m in Sources */,
+				B4BB8FF81DBEEF0300EF753C /* AddressView.m in Sources */,
 				B48D89D91D6AE14D00814887 /* main.m in Sources */,
+				B4BB8FDE1DBEED1B00EF753C /* FMDatabaseAdditions.m in Sources */,
+				B4BB90011DBEF98F00EF753C /* CitiesDataTool.m in Sources */,
+				B4BB8FF91DBEEF0300EF753C /* ChooseLocationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,6 +11,7 @@
 #import "UIView+Frame.h"
 #import "AddressTableViewCell.h"
 #import "AddressItem.h"
+#import "CitiesDataTool.h"
 
 #define HYScreenW [UIScreen mainScreen].bounds.size.width
 
@@ -129,35 +130,19 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     AddressTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"AddressTableViewCell" forIndexPath:indexPath];
-
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+    AddressItem * item;
     //省级别
     if([self.tableViews indexOfObject:tableView] == 0){
-        
-        
-        AddressItem * item = self.dataSouce[indexPath.row][@"addressItem"];
-        cell.item = item;
-        
-     //市级别
+        item = self.dataSouce[indexPath.row];
+    //市级别
     }else if ([self.tableViews indexOfObject:tableView] == 1){
-         NSIndexPath * indexPath0 = [self.tableViews.firstObject indexPathForSelectedRow];
-        if ([self addressDictToDataSouce:self.dataSouce[indexPath0.row][@"sub"]].count == 1) {
-            AddressItem * item = self.cityDataSouce[indexPath.row];
-            cell.item = item;
-        }else{
-            AddressItem * item = self.cityDataSouce[indexPath.row][@"addressItem"];
-            cell.item = item;
-        }
-        
-        
-    //区级别
+        item = self.cityDataSouce[indexPath.row];
+    //县级别
     }else if ([self.tableViews indexOfObject:tableView] == 2){
-//        cell.addressLabel.text = self.districtDataSouce[indexPath.row];
-        AddressItem * item = self.districtDataSouce[indexPath.row];
-        cell.item = item;
+        item = self.districtDataSouce[indexPath.row];
     }
-    
+    cell.item = item;
     return cell;
 }
 
@@ -166,100 +151,64 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     
     if([self.tableViews indexOfObject:tableView] == 0){
         
-        UITableView * tableView0 = self.tableViews.firstObject;
-        NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
-        _cityDataSouce = [self addressDictToDataSouce:self.dataSouce[indexPath.row][@"sub"]];
-    
-        if (_cityDataSouce.count == 1) {
-            NSMutableArray * mArray = [NSMutableArray array];
-            for (NSString * name in _cityDataSouce.firstObject[@"sub"]) {
-                AddressItem * item = [AddressItem initWithName:name isSelected:NO];
-                [mArray addObject:item];
-            }
-            _cityDataSouce = mArray;
-        }
+        //1.1 获取下一级别的数据源(市级别,如果是直辖市时,下级则为区级别)
+        AddressItem * provinceItem = self.dataSouce[indexPath.row];
+        self.cityDataSouce = [[CitiesDataTool sharedManager] queryAllRecordWithSheng:provinceItem.sheng];
         
-        //重新选择省,切换省.
-        if (indexPath0 != indexPath && indexPath0) {
+        //1.1 判断是否是第一次选择,不是,则重新选择省,切换省.
+        NSIndexPath * indexPath0 = [tableView indexPathForSelectedRow];
+        if ([indexPath0 compare:indexPath] != NSOrderedSame && indexPath0) {
             
             for (int i = 0; i < self.tableViews.count; i++) {
                 [self removeLastItem];
             }
             [self addTopBarItem];
             [self addTableView];
-            AddressItem * item = self.dataSouce[indexPath.row][@"addressItem"];
-            [self scrollToNextItem:item.name ];
+            
+            [self scrollToNextItem:provinceItem.name];
             return indexPath;
         }
+
         
         //第一次选择省
         [self addTopBarItem];
         [self addTableView];
-        AddressItem * item = self.dataSouce[indexPath.row][@"addressItem"];
+        AddressItem * item = self.dataSouce[indexPath.row];
         [self scrollToNextItem:item.name ];
         
     }else if ([self.tableViews indexOfObject:tableView] == 1){
         
-        UITableView * tableView0 = self.tableViews[1];
-        NSIndexPath * indexPath0 = [tableView0 indexPathForSelectedRow];
+        AddressItem * cityItem = self.cityDataSouce[indexPath.row];
+        self.districtDataSouce = [[CitiesDataTool sharedManager] queryAllRecordWithSheng:cityItem.sheng Di:cityItem.di];
+        NSIndexPath * indexPath0 = [tableView indexPathForSelectedRow];
         
-        //重新选择市,切换市.
-        if (indexPath0 != indexPath && indexPath0) {
-        
-            //如果发现省级别字典里sub关联的数组只有一个元素,说明是直辖市,这时2级界面为区级别
-            if ([self.cityDataSouce[indexPath.row] isKindOfClass:[AddressItem class]]){
-                AddressItem * item = self.cityDataSouce[indexPath.row];
-                [self setUpAddress:item.name];
-                return indexPath;
-            }
+        if ([indexPath0 compare:indexPath] != NSOrderedSame && indexPath0) {
             
-            NSMutableArray * mArray = [NSMutableArray array];
-            NSArray * tempArray = _cityDataSouce[indexPath.row][@"sub"];
-            NSLog(@"%@",indexPath);
-            for (NSString * name in tempArray) {
-                AddressItem * item = [AddressItem initWithName:name isSelected:NO];
-                [mArray addObject:item];
+            for (int i = 0; i < self.tableViews.count - 1; i++) {
+                [self removeLastItem];
             }
-            _districtDataSouce = mArray;
-            
-            [self removeLastItem];
+
             [self addTopBarItem];
             [self addTableView];
-            AddressItem * item = self.cityDataSouce[indexPath.row][@"addressItem"];
-            [self scrollToNextItem:item.name];
+            [self scrollToNextItem:cityItem.name];
+            return indexPath;
             
+        }else if ([indexPath0 compare:indexPath] == NSOrderedSame && indexPath0){
+        
+            [self scrollToNextItem:cityItem.name];
             return indexPath;
         }
-
-        //之前未选中市,第一次选择
-        if ([self.cityDataSouce[indexPath.row] isKindOfClass:[AddressItem class]]){//只有两级,此时self.cityDataSouce装的是直辖市下面区的数组
-            
-            AddressItem * item = self.cityDataSouce[indexPath.row];
-            [self setUpAddress:item.name];
-            
-        }else{
-    
-            NSMutableArray * mArray = [NSMutableArray array];
-            NSArray * tempArray = _cityDataSouce[indexPath.row][@"sub"];
-            NSLog(@"%@",indexPath);
-            for (NSString * name in tempArray) {
-                AddressItem * item = [AddressItem initWithName:name isSelected:NO];
-                [mArray addObject:item];
-            }
-            _districtDataSouce = mArray;
-    
-            [self addTopBarItem];
-            [self addTableView];
-             AddressItem * item = self.cityDataSouce[indexPath.row][@"addressItem"];
-            [self scrollToNextItem:item.name];
-        }
-       
+        
+        [self addTopBarItem];
+        [self addTableView];
+        AddressItem * item = self.cityDataSouce[indexPath.row];
+        [self scrollToNextItem:item.name];
+        
     }else if ([self.tableViews indexOfObject:tableView] == 2){
         
         AddressItem * item = self.districtDataSouce[indexPath.row];
         [self setUpAddress:item.name];
     }
-    
     return indexPath;
 }
 
@@ -314,7 +263,9 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     [self changeUnderLineFrame:btn];
     NSMutableString * addressStr = [[NSMutableString alloc] init];
     for (UIButton * btn  in self.topTabbarItems) {
-        
+        if ([btn.currentTitle isEqualToString:@"县"] || [btn.currentTitle isEqualToString:@"市辖区"] ) {
+            continue;
+        }
         [addressStr appendString:btn.currentTitle];
         [addressStr appendString:@" "];
     }
@@ -385,34 +336,10 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 - (NSArray *)dataSouce{
     
     if (_dataSouce == nil) {
-        NSString * path = [[NSBundle mainBundle] pathForResource:@"address.plist" ofType:nil];
-        
-        NSDictionary * dict = [NSDictionary dictionaryWithContentsOfFile:path];
-        NSMutableArray * mArray = [NSMutableArray array];
-        for (NSDictionary * dict0 in dict[@"address"]) {
-            NSMutableDictionary *mDict = [NSMutableDictionary dictionary];
-            [mDict setValue:dict0[@"sub"] forKey:@"sub"];
-            AddressItem * item = [AddressItem initWithName:dict0[@"name"] isSelected:NO];
-            [mDict setValue:item forKey:@"addressItem"];
-            [mArray addObject:mDict];
-        }
-
-        _dataSouce = mArray;
+       
+        _dataSouce = [[CitiesDataTool sharedManager] queryAllProvince];
     }
     return _dataSouce;
-}
-
-- (NSArray *)addressDictToDataSouce:(NSArray *)array{
-    
-    NSMutableArray * mArray = [NSMutableArray array];
-    for (NSDictionary * dict0 in array) {
-        NSMutableDictionary *mDict = [NSMutableDictionary dictionary];
-        [mDict setValue:dict0[@"sub"] forKey:@"sub"];
-        AddressItem * item = [AddressItem initWithName:dict0[@"name"] isSelected:NO];
-        [mDict setValue:item forKey:@"addressItem"];
-        [mArray addObject:mDict];
-    }
-    return mArray;
 }
 
 
