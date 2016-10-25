@@ -156,13 +156,19 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         //1.1 获取下一级别的数据源(市级别,如果是直辖市时,下级则为区级别)
         AddressItem * provinceItem = self.dataSouce[indexPath.row];
         self.cityDataSouce = [[CitiesDataTool sharedManager] queryAllRecordWithSheng:provinceItem.sheng];
-        
+        if(self.cityDataSouce.count == 0){
+            for (int i = 0; i < self.tableViews.count && self.tableViews.count != 1; i++) {
+                [self removeLastItem];
+            }
+            [self setUpAddress:provinceItem.name];
+            return indexPath;
+        }
         //1.1 判断是否是第一次选择,不是,则重新选择省,切换省.
         NSIndexPath * indexPath0 = [tableView indexPathForSelectedRow];
 
         if ([indexPath0 compare:indexPath] != NSOrderedSame && indexPath0) {
             
-            for (int i = 0; i < self.tableViews.count; i++) {
+            for (int i = 0; i < self.tableViews.count && self.tableViews.count != 1; i++) {
                 [self removeLastItem];
             }
             [self addTopBarItem];
@@ -172,7 +178,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
             
         }else if ([indexPath0 compare:indexPath] == NSOrderedSame && indexPath0){
             
-            for (int i = 0; i < self.tableViews.count; i++) {
+            for (int i = 0; i < self.tableViews.count && self.tableViews.count != 1 ; i++) {
                 [self removeLastItem];
             }
             [self addTopBarItem];
