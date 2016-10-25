@@ -159,14 +159,24 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         
         //1.1 判断是否是第一次选择,不是,则重新选择省,切换省.
         NSIndexPath * indexPath0 = [tableView indexPathForSelectedRow];
-        if ([indexPath0 compare:indexPath] != NSOrderedSame && indexPath0) {
 
+        if ([indexPath0 compare:indexPath] != NSOrderedSame && indexPath0) {
+            
             for (int i = 0; i < self.tableViews.count; i++) {
                 [self removeLastItem];
             }
             [self addTopBarItem];
             [self addTableView];
+            [self scrollToNextItem:provinceItem.name];
+            return indexPath;
             
+        }else if ([indexPath0 compare:indexPath] == NSOrderedSame && indexPath0){
+            
+            for (int i = 0; i < self.tableViews.count; i++) {
+                [self removeLastItem];
+            }
+            [self addTopBarItem];
+            [self addTableView];
             [self scrollToNextItem:provinceItem.name];
             return indexPath;
         }
