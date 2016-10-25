@@ -161,7 +161,6 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         NSIndexPath * indexPath0 = [tableView indexPathForSelectedRow];
         if ([indexPath0 compare:indexPath] != NSOrderedSame && indexPath0) {
 
-            
             for (int i = 0; i < self.tableViews.count; i++) {
                 [self removeLastItem];
             }
@@ -172,7 +171,6 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
             return indexPath;
         }
 
-        
         //之前未选中省，第一次选择省
         [self addTopBarItem];
         [self addTableView];
@@ -181,7 +179,6 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
         
     }else if ([self.tableViews indexOfObject:tableView] == 1){
         
-
         AddressItem * cityItem = self.cityDataSouce[indexPath.row];
         self.districtDataSouce = [[CitiesDataTool sharedManager] queryAllRecordWithSheng:cityItem.sheng Di:cityItem.di];
         NSIndexPath * indexPath0 = [tableView indexPathForSelectedRow];
@@ -191,14 +188,11 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
             for (int i = 0; i < self.tableViews.count - 1; i++) {
                 [self removeLastItem];
             }
-
-
             [self addTopBarItem];
             [self addTableView];
             [self scrollToNextItem:cityItem.name];
             return indexPath;
 
-            
         }else if ([indexPath0 compare:indexPath] == NSOrderedSame && indexPath0){
         
             [self scrollToNextItem:cityItem.name];
@@ -221,18 +215,32 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    AddressTableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-    AddressItem * item = cell.item;
+    AddressItem * item;
+    if([self.tableViews indexOfObject:tableView] == 0){
+       item = self.dataSouce[indexPath.row];
+    }else if ([self.tableViews indexOfObject:tableView] == 1){
+       item = self.cityDataSouce[indexPath.row];
+    }else if ([self.tableViews indexOfObject:tableView] == 2){
+       item = self.districtDataSouce[indexPath.row];
+    }
     item.isSelected = YES;
-    cell.item = item;
+    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    AddressTableViewCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-    AddressItem * item = cell.item;
+    AddressItem * item;
+    if([self.tableViews indexOfObject:tableView] == 0){
+        item = self.dataSouce[indexPath.row];
+    }else if ([self.tableViews indexOfObject:tableView] == 1){
+        item = self.cityDataSouce[indexPath.row];
+    }else if ([self.tableViews indexOfObject:tableView] == 2){
+        item = self.districtDataSouce[indexPath.row];
+    }
     item.isSelected = NO;
-    cell.item = item;
+    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+
 }
 
 
