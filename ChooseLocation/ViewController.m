@@ -20,6 +20,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[CitiesDataTool sharedManager] requestGetData];
+    [self.view addSubview:self.cover];
+    self.chooseLocationView.address = @"广东省 广州市 越秀区";
+    self.chooseLocationView.areaCode = @"440104";
+    self.addresslabel.text = @"广东省 广州市 越秀区";
 }
 
 - (IBAction)chooseLocation:(UIButton *)sender {
@@ -49,20 +53,23 @@
     }
 }
 
-
+- (ChooseLocationView *)chooseLocationView{
+    
+    if (!_chooseLocationView) {
+       _chooseLocationView = [[ChooseLocationView alloc]initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 350, [UIScreen mainScreen].bounds.size.width, 350)];
+      
+    }
+    return _chooseLocationView;
+}
 
 - (UIView *)cover{
 
     if (!_cover) {
         _cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
         _cover.backgroundColor = [UIColor colorWithWhite:0 alpha:0.2];
-        
-        [[UIApplication sharedApplication].keyWindow addSubview:_cover];
-        _chooseLocationView = [[ChooseLocationView alloc]initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 350, [UIScreen mainScreen].bounds.size.width, 350)];
-        [_cover addSubview:_chooseLocationView];
+        [_cover addSubview:self.chooseLocationView];
         __weak typeof (self) weakSelf = self;
         _chooseLocationView.chooseFinish = ^{
-            
             [UIView animateWithDuration:0.25 animations:^{
                 weakSelf.addresslabel.text = weakSelf.chooseLocationView.address;
                 weakSelf.view.transform = CGAffineTransformIdentity;

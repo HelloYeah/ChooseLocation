@@ -15,14 +15,12 @@
 		B48D89E71D6AE14D00814887 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B48D89E51D6AE14D00814887 /* LaunchScreen.storyboard */; };
 		B48D89F21D6AE14D00814887 /* ChooseLocationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D89F11D6AE14D00814887 /* ChooseLocationTests.m */; };
 		B48D89FD1D6AE14D00814887 /* ChooseLocationUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B48D89FC1D6AE14D00814887 /* ChooseLocationUITests.m */; };
-		B4BB8FCF1DBEECBC00EF753C /* ChineseCities.json in Resources */ = {isa = PBXBuildFile; fileRef = B4BB8FCE1DBEECBC00EF753C /* ChineseCities.json */; };
 		B4BB8FDD1DBEED1B00EF753C /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FD21DBEED1B00EF753C /* FMDatabase.m */; };
 		B4BB8FDE1DBEED1B00EF753C /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FD41DBEED1B00EF753C /* FMDatabaseAdditions.m */; };
 		B4BB8FDF1DBEED1B00EF753C /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FD61DBEED1B00EF753C /* FMDatabasePool.m */; };
 		B4BB8FE01DBEED1B00EF753C /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FD81DBEED1B00EF753C /* FMDatabaseQueue.m */; };
 		B4BB8FE11DBEED1B00EF753C /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FDB1DBEED1B00EF753C /* FMResultSet.m */; };
 		B4BB8FE21DBEED1B00EF753C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B4BB8FDC1DBEED1B00EF753C /* Info.plist */; };
-		B4BB8FE41DBEEDDB00EF753C /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B4BB8FE31DBEEDDB00EF753C /* libsqlite3.0.tbd */; };
 		B4BB8FE81DBEEEFB00EF753C /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FE71DBEEEFB00EF753C /* UIView+Frame.m */; };
 		B4BB8FF51DBEEF0300EF753C /* AddressItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FEC1DBEEF0300EF753C /* AddressItem.m */; };
 		B4BB8FF61DBEEF0300EF753C /* AddressTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FEF1DBEEF0300EF753C /* AddressTableViewCell.m */; };
@@ -31,6 +29,7 @@
 		B4BB8FF91DBEEF0300EF753C /* ChooseLocationView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB8FF41DBEEF0300EF753C /* ChooseLocationView.m */; };
 		B4BB8FFD1DBEF8D900EF753C /* Cities.json in Resources */ = {isa = PBXBuildFile; fileRef = B4BB8FFC1DBEF8D900EF753C /* Cities.json */; };
 		B4BB90011DBEF98F00EF753C /* CitiesDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = B4BB90001DBEF98F00EF753C /* CitiesDataTool.m */; };
+		B4BB90021DBF659D00EF753C /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B4BB8FE31DBEEDDB00EF753C /* libsqlite3.0.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,7 +66,6 @@
 		B48D89F81D6AE14D00814887 /* ChooseLocationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChooseLocationUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B48D89FC1D6AE14D00814887 /* ChooseLocationUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChooseLocationUITests.m; sourceTree = "<group>"; };
 		B48D89FE1D6AE14D00814887 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B4BB8FCE1DBEECBC00EF753C /* ChineseCities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ChineseCities.json; sourceTree = "<group>"; };
 		B4BB8FD11DBEED1B00EF753C /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		B4BB8FD21DBEED1B00EF753C /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		B4BB8FD31DBEED1B00EF753C /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -102,7 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4BB8FE41DBEEDDB00EF753C /* libsqlite3.0.tbd in Frameworks */,
+				B4BB90021DBF659D00EF753C /* libsqlite3.0.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,7 +165,6 @@
 				B48D89E51D6AE14D00814887 /* LaunchScreen.storyboard */,
 				B48D89DA1D6AE14D00814887 /* AppDelegate.h */,
 				B48D89DB1D6AE14D00814887 /* AppDelegate.m */,
-				B4BB8FCE1DBEECBC00EF753C /* ChineseCities.json */,
 				B4BB8FFC1DBEF8D900EF753C /* Cities.json */,
 				B48D89D81D6AE14D00814887 /* main.m */,
 			);
@@ -367,7 +364,6 @@
 			files = (
 				B48D89E71D6AE14D00814887 /* LaunchScreen.storyboard in Resources */,
 				B4BB8FFD1DBEF8D900EF753C /* Cities.json in Resources */,
-				B4BB8FCF1DBEECBC00EF753C /* ChineseCities.json in Resources */,
 				B48D89E41D6AE14D00814887 /* Assets.xcassets in Resources */,
 				B48D89E21D6AE14D00814887 /* Main.storyboard in Resources */,
 				B4BB8FF71DBEEF0300EF753C /* AddressTableViewCell.xib in Resources */,

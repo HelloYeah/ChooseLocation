@@ -155,7 +155,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 
         //1.1 获取下一级别的数据源(市级别,如果是直辖市时,下级则为区级别)
         AddressItem * provinceItem = self.dataSouce[indexPath.row];
-        self.cityDataSouce = [[CitiesDataTool sharedManager] queryAllRecordWithSheng:provinceItem.sheng];
+        self.cityDataSouce = [[CitiesDataTool sharedManager] queryAllRecordWithShengID:[provinceItem.code substringWithRange:(NSRange){0,2}]];
         if(self.cityDataSouce.count == 0){
             for (int i = 0; i < self.tableViews.count && self.tableViews.count != 1; i++) {
                 [self removeLastItem];
@@ -196,7 +196,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     }else if ([self.tableViews indexOfObject:tableView] == 1){
         
         AddressItem * cityItem = self.cityDataSouce[indexPath.row];
-        self.districtDataSouce = [[CitiesDataTool sharedManager] queryAllRecordWithSheng:cityItem.sheng Di:cityItem.di];
+        self.districtDataSouce = [[CitiesDataTool sharedManager] queryAllRecordWithShengID:cityItem.sheng cityID:cityItem.di];
         NSIndexPath * indexPath0 = [tableView indexPathForSelectedRow];
         
         if ([indexPath0 compare:indexPath] != NSOrderedSame && indexPath0) {
@@ -338,12 +338,91 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 }
 
 
+#pragma mark - 开始就有地址时.
+
+- (void)setAreaCode:(NSString *)areaCode{
+    
+    _areaCode = areaCode;
+    //2.1 添加市级别,地区级别列表
+    [self addTableView];
+    [self addTableView];
+
+    self.cityDataSouce = [[CitiesDataTool sharedManager] queryAllRecordWithShengID:[self.areaCode substringWithRange:(NSRange){0,2}]];
+    self.districtDataSouce = [[CitiesDataTool sharedManager] queryAllRecordWithShengID:[self.areaCode substringWithRange:(NSRange){0,2}] cityID:[self.areaCode substringWithRange:(NSRange){2,2}]];//
+  
+    //2.3 添加底部对应按钮
+    [self addTopBarItem];
+    [self addTopBarItem];
+    
+    NSString * code = [self.areaCode stringByReplacingCharactersInRange:(NSRange){2,4} withString:@"0000"];
+    NSString * provinceName = [[CitiesDataTool sharedManager] queryAllRecordWithAreaCode:code];
+    UIButton * firstBtn = self.topTabbarItems.firstObject;
+    [firstBtn setTitle:provinceName forState:UIControlStateNormal];
+    
+    NSString * cityName = [[CitiesDataTool sharedManager] queryAllRecordWithAreaCode:[self.areaCode stringByReplacingCharactersInRange:(NSRange){4,2} withString:@"00"]];
+    UIButton * midBtn = self.topTabbarItems[1];
+    [midBtn setTitle:cityName forState:UIControlStateNormal];
+    
+     NSString * districtName = [[CitiesDataTool sharedManager] queryAllRecordWithAreaCode:self.areaCode];
+    UIButton * lastBtn = self.topTabbarItems.lastObject;
+    [lastBtn setTitle:districtName forState:UIControlStateNormal];
+    [self.topTabbarItems makeObjectsPerformSelector:@selector(sizeToFit)];
+    [_topTabbar layoutIfNeeded];
+    
+    
+    [self changeUnderLineFrame:lastBtn];
+    
+    //2.4 设置偏移量
+    self.contentView.contentSize = (CGSize){self.tableViews.count * HYScreenW,0};
+    CGPoint offset = self.contentView.contentOffset;
+    self.contentView.contentOffset = CGPointMake((self.tableViews.count - 1) * HYScreenW, offset.y);
+
+    [self setSelectedProvince:provinceName andCity:cityName andDistrict:districtName];
+}
+
+//初始化选中状态
+- (void)setSelectedProvince:(NSString *)provinceName andCity:(NSString *)cityName andDistrict:(NSString *)districtName {
+    
+    for (AddressItem * item in self.dataSouce) {
+        if ([item.name isEqualToString:provinceName]) {
+            NSIndexPath * indexPath = [NSIndexPath indexPathForRow:[self.dataSouce indexOfObject:item] inSection:0];
+            UITableView * tableView  = self.tableViews.firstObject;
+            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+            [self tableView:tableView didSelectRowAtIndexPath:indexPath];
+            break;
+        }
+    }
+    
+    for (int i = 0; i < self.cityDataSouce.count; i++) {
+        AddressItem * item = self.cityDataSouce[i];
+        
+        if ([item.name isEqualToString:cityName]) {
+            NSIndexPath * indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+            UITableView * tableView  = self.tableViews[1];
+            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+            [self tableView:tableView didSelectRowAtIndexPath:indexPath];
+            break;
+        }
+    }
+    
+    for (int i = 0; i <self.districtDataSouce.count; i++) {
+        AddressItem * item = self.districtDataSouce[i];
+        if ([item.name isEqualToString:districtName]) {
+            NSIndexPath * indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+            UITableView * tableView  = self.tableViews[2];
+            [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+            [self tableView:tableView didSelectRowAtIndexPath:indexPath];
+            break;
+        }
+    }
+}
+
 #pragma mark - getter 方法
 
 //分割线
 - (UIView *)separateLine{
     
-    UIView * separateLine = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 1)];
+    UIView * separateLine = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 1 / [UIScreen mainScreen].scale)];
     separateLine.backgroundColor = [UIColor colorWithRed:222/255.0 green:222/255.0 blue:222/255.0 alpha:1];
     return separateLine;
 }
@@ -373,26 +452,4 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     }
     return _dataSouce;
 }
-
-
-//市级别数据源
-- (NSArray *)cityDataSouce{
-    
-    if (_cityDataSouce == nil) {
-  
-        _cityDataSouce = [NSArray array];
-    }
-    return _cityDataSouce;
-}
-
-//区级别数据源
-- (NSArray *)districtDataSouce{
-    
-    if (_districtDataSouce == nil) {
-     
-        _districtDataSouce = [NSArray array];
-    }
-    return _districtDataSouce;
-}
-
 @end

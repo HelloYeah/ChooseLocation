@@ -259,6 +259,34 @@ static CitiesDataTool *shareInstance = nil;
     return nil;
 }
 
+//根据areaCode, 查询地址
+- (NSString *)queryAllRecordWithAreaCode:(NSString *) areaCode
+
+{
+    if ([self.fmdb  open]) {
+        NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE  `code` = %@"  , locationTabbleName,areaCode];
+        FMResultSet *result = [self.fmdb  executeQuery:sql];
+        NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:0];
+        //'code','sheng','di','xian','name', 'level'
+        while ([result next]) {
+            AddressItem *model = [[AddressItem alloc] init];
+            model.code = [result stringForColumn:@"code"];
+            model.sheng = [result stringForColumn:@"sheng"];
+            model.di = [result stringForColumn:@"di"];
+            model.xian = [result stringForColumn:@"xian"];
+            model.name = [result stringForColumn:@"name"];
+            model.level = [result stringForColumn:@"level"];
+            [array addObject:model];
+        }
+        [self.fmdb close];
+        if (array.count > 0) {
+            AddressItem * model = array.firstObject;
+            return model.name;
+        }
+    }
+    return nil;
+}
+
 //根据areaLevel级别，省ID 查询 市
 - (NSMutableArray *)queryAllRecordWithSheng:(NSString *) sheng
 
@@ -284,9 +312,33 @@ static CitiesDataTool *shareInstance = nil;
     return nil;
 }
 
+//根据areaLevel级别,省ID(sheng)  ,查询 市
+- (NSMutableArray *)queryAllRecordWithShengID:(NSString *) sheng{
+    
+    if ([self.fmdb  open]) {
+        NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE `level` = 2 AND  `sheng` = %@ "  , locationTabbleName,sheng];
+        FMResultSet *result = [self.fmdb  executeQuery:sql];
+        NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:0];
+        while ([result next]) {
+            AddressItem *model = [[AddressItem alloc] init];
+            model.code = [result stringForColumn:@"code"];
+            model.sheng = [result stringForColumn:@"sheng"];
+            model.di = [result stringForColumn:@"di"];
+            model.xian = [result stringForColumn:@"xian"];
+            model.name = [result stringForColumn:@"name"];
+            model.level = [result stringForColumn:@"level"];
+            [array addObject:model];
+        }
+        [self.fmdb close];
+        return array;
+    }
+    return nil;
+    
+}
+
 
 //根据areaLevel级别,省ID(sheng) , 市ID(di) ,查询 县
-- (NSMutableArray *)queryAllRecordWithSheng:(NSString *) sheng Di:(NSString *)di{
+- (NSMutableArray *)queryAllRecordWithShengID:(NSString *) sheng cityID:(NSString *)di{
     
     if ([self.fmdb  open]) {
         NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE `level` = 3 AND  `sheng` = %@  AND `di` = '%@'"  , locationTabbleName,sheng,di];

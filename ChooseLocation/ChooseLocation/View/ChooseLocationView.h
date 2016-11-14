@@ -14,4 +14,6 @@
 
 @property (nonatomic, copy) void(^chooseFinish)();
 
+@property (nonatomic,copy) NSString * areaCode;
+
 @end
