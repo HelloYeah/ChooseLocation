@@ -338,6 +338,17 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 }
 
 
+#pragma mark - <UIScrollView>
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    __weak typeof(self)weakSelf = self;
+    [UIView animateWithDuration:0.25 animations:^{
+        NSInteger index = scrollView.contentOffset.x / HYScreenW;
+        UIButton * btn = weakSelf.topTabbarItems[index];
+        [weakSelf changeUnderLineFrame:btn];
+    }];
+}
+
 #pragma mark - 开始就有地址时.
 
 - (void)setAreaCode:(NSString *)areaCode{
