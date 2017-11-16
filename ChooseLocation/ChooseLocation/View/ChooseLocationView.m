@@ -341,6 +341,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 #pragma mark - <UIScrollView>
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    if(scrollView != self.contentView) return;
     __weak typeof(self)weakSelf = self;
     [UIView animateWithDuration:0.25 animations:^{
         NSInteger index = scrollView.contentOffset.x / HYScreenW;
