@@ -9,21 +9,21 @@
 #import "ViewController.h"
 #import "ChooseLocationView.h"
 #import "CitiesDataTool.h"
+
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+const static CGFloat SCALING = 0.95;
+
 @interface ViewController ()<NSURLSessionDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic,strong) ChooseLocationView *chooseLocationView;
 @property (nonatomic,strong) UIView  *cover;
 @property (weak, nonatomic) IBOutlet UILabel *addresslabel;
-@property (nonatomic, assign) CGFloat scaling;
 @end
-
-#define kScreenWidth [UIScreen mainScreen].bounds.size.width
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _scaling = 0.95;
     [[CitiesDataTool sharedManager] requestGetData];
     [self.view addSubview:self.cover];
     self.chooseLocationView.address = @"广东省 广州市 越秀区";
@@ -34,8 +34,8 @@
 - (IBAction)chooseLocation:(UIButton *)sender {
     
     [UIView animateWithDuration:0.25 animations:^{
-        self.view.transform =CGAffineTransformMakeScale(_scaling, _scaling);
-        self.chooseLocationView.frame = CGRectMake(-(kScreenWidth * (1 - _scaling)), kScreenHeight - 350, kScreenWidth * (2.0 + _scaling), 350);
+        self.view.transform =CGAffineTransformMakeScale(SCALING, SCALING);
+        self.chooseLocationView.frame = CGRectMake(-(kScreenWidth * (1 - SCALING)), kScreenHeight - 350, kScreenWidth * (2.0 - SCALING), 350);
     }];
     self.cover.hidden = !self.cover.hidden;
     self.chooseLocationView.hidden = self.cover.hidden;
@@ -62,7 +62,7 @@
 - (ChooseLocationView *)chooseLocationView{
     
     if (!_chooseLocationView) {
-       _chooseLocationView = [[ChooseLocationView alloc]initWithFrame:CGRectMake(-(kScreenWidth * (1 - _scaling)), kScreenHeight, kScreenWidth * (2.0 + _scaling), 350)];
+       _chooseLocationView = [[ChooseLocationView alloc]initWithFrame:CGRectMake(-(kScreenWidth * (1 - SCALING)), kScreenHeight, kScreenWidth * (2.0 - SCALING), 350) withScaling:SCALING];
     }
     return _chooseLocationView;
 }
@@ -79,7 +79,7 @@
                 weakSelf.addresslabel.text = weakSelf.chooseLocationView.address;
                 weakSelf.view.transform = CGAffineTransformIdentity;
                 weakSelf.cover.alpha = 0;
-                weakSelf.chooseLocationView.frame = CGRectMake(-(kScreenWidth * (1 - _scaling)), kScreenHeight, kScreenWidth * (2.0 + _scaling), 350);
+                weakSelf.chooseLocationView.frame = CGRectMake(-(kScreenWidth * (1 - SCALING)), kScreenHeight, kScreenWidth * (2.0 - SCALING), 350);
             } completion:^(BOOL finished) {
                 weakSelf.cover.hidden = YES;
             }];
