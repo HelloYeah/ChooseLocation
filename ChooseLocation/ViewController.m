@@ -9,6 +9,11 @@
 #import "ViewController.h"
 #import "ChooseLocationView.h"
 #import "CitiesDataTool.h"
+
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+const static CGFloat SCALING = 0.95;
+
 @interface ViewController ()<NSURLSessionDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic,strong) ChooseLocationView *chooseLocationView;
 @property (nonatomic,strong) UIView  *cover;
@@ -29,7 +34,8 @@
 - (IBAction)chooseLocation:(UIButton *)sender {
     
     [UIView animateWithDuration:0.25 animations:^{
-        self.view.transform =CGAffineTransformMakeScale(0.95, 0.95);
+        self.view.transform =CGAffineTransformMakeScale(SCALING, SCALING);
+        self.chooseLocationView.frame = CGRectMake(-(kScreenWidth * (1 - SCALING)), kScreenHeight - 350, kScreenWidth * (2.0 - SCALING), 350);
     }];
     self.cover.hidden = !self.cover.hidden;
     self.chooseLocationView.hidden = self.cover.hidden;
@@ -56,8 +62,7 @@
 - (ChooseLocationView *)chooseLocationView{
     
     if (!_chooseLocationView) {
-       _chooseLocationView = [[ChooseLocationView alloc]initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 350, [UIScreen mainScreen].bounds.size.width, 350)];
-      
+       _chooseLocationView = [[ChooseLocationView alloc]initWithFrame:CGRectMake(-(kScreenWidth * (1 - SCALING)), kScreenHeight, kScreenWidth * (2.0 - SCALING), 350) withScaling:SCALING];
     }
     return _chooseLocationView;
 }
@@ -73,6 +78,9 @@
             [UIView animateWithDuration:0.25 animations:^{
                 weakSelf.addresslabel.text = weakSelf.chooseLocationView.address;
                 weakSelf.view.transform = CGAffineTransformIdentity;
+                weakSelf.cover.alpha = 0;
+                weakSelf.chooseLocationView.frame = CGRectMake(-(kScreenWidth * (1 - SCALING)), kScreenHeight, kScreenWidth * (2.0 - SCALING), 350);
+            } completion:^(BOOL finished) {
                 weakSelf.cover.hidden = YES;
             }];
         };
@@ -81,6 +89,7 @@
         tap.delegate = self;
         _cover.hidden = YES;
     }
+    _cover.alpha = 1;
     return _cover;
 }
 @end

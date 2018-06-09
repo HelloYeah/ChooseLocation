@@ -28,14 +28,15 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 @property (nonatomic,strong) NSMutableArray * tableViews;
 @property (nonatomic,strong) NSMutableArray * topTabbarItems;
 @property (nonatomic,weak) UIButton * selectedBtn;
+@property (nonatomic, assign) CGFloat scaledScreenWidth;
 @end
 
 @implementation ChooseLocationView
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame withScaling:(CGFloat)scaling {
     self = [super initWithFrame:frame];
     if (self) {
+        _scaledScreenWidth = HYScreenW * (2.0 - scaling);
         [self setUp];
     }
     return self;
@@ -44,7 +45,6 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 #pragma mark - setUp UI
 
 - (void)setUp{
-    
     UIView * topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, kHYTopViewHeight)];
     [self addSubview:topView];
     UILabel * titleLabel = [[UILabel alloc]init];
@@ -58,7 +58,6 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     separateLine.top = topView.height - separateLine.height;
     topView.backgroundColor = [UIColor whiteColor];
 
-    
     AddressView * topTabbar = [[AddressView alloc]initWithFrame:CGRectMake(0, topView.height, self.frame.size.width, kHYTopViewHeight)];
     [self addSubview:topTabbar];
     _topTabbar = topTabbar;
@@ -79,7 +78,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     
     _underLine.backgroundColor = [UIColor orangeColor];
     UIScrollView * contentView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(topTabbar.frame), self.frame.size.width, self.height - kHYTopViewHeight - kHYTopTabbarHeight)];
-    contentView.contentSize = CGSizeMake(HYScreenW, 0);
+    contentView.contentSize = CGSizeMake(_scaledScreenWidth, 0);
     [self addSubview:contentView];
     _contentView = contentView;
     _contentView.pagingEnabled = YES;
@@ -91,7 +90,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 
 - (void)addTableView{
 
-    UITableView * tabbleView = [[UITableView alloc]initWithFrame:CGRectMake(self.tableViews.count * HYScreenW, 0, HYScreenW, _contentView.height)];
+    UITableView * tabbleView = [[UITableView alloc]initWithFrame:CGRectMake(self.tableViews.count * _scaledScreenWidth, 0, _scaledScreenWidth, _contentView.height)];
     [_contentView addSubview:tabbleView];
     [self.tableViews addObject:tabbleView];
     tabbleView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -269,7 +268,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     NSInteger index = [self.topTabbarItems indexOfObject:btn];
     
     [UIView animateWithDuration:0.5 animations:^{
-        self.contentView.contentOffset = CGPointMake(index * HYScreenW, 0);
+        self.contentView.contentOffset = CGPointMake(index * _scaledScreenWidth, 0);
         [self changeUnderLineFrame:btn];
     }];
 }
@@ -287,7 +286,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 //完成地址选择,执行chooseFinish代码块
 - (void)setUpAddress:(NSString *)address{
 
-    NSInteger index = self.contentView.contentOffset.x / HYScreenW;
+    NSInteger index = self.contentView.contentOffset.x / _scaledScreenWidth;
     UIButton * btn = self.topTabbarItems[index];
     [btn setTitle:address forState:UIControlStateNormal];
     [btn sizeToFit];
@@ -324,15 +323,15 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
 //滚动到下级界面,并重新设置顶部按钮条上对应按钮的title
 - (void)scrollToNextItem:(NSString *)preTitle{
     
-    NSInteger index = self.contentView.contentOffset.x / HYScreenW;
+    NSInteger index = self.contentView.contentOffset.x / _scaledScreenWidth;
     UIButton * btn = self.topTabbarItems[index];
     [btn setTitle:preTitle forState:UIControlStateNormal];
     [btn sizeToFit];
     [_topTabbar layoutIfNeeded];
     [UIView animateWithDuration:0.25 animations:^{
-        self.contentView.contentSize = (CGSize){self.tableViews.count * HYScreenW,0};
+        self.contentView.contentSize = (CGSize){self.tableViews.count * _scaledScreenWidth,0};
         CGPoint offset = self.contentView.contentOffset;
-        self.contentView.contentOffset = CGPointMake(offset.x + HYScreenW, offset.y);
+        self.contentView.contentOffset = CGPointMake(offset.x + _scaledScreenWidth, offset.y);
         [self changeUnderLineFrame: [self.topTabbar.subviews lastObject]];
     }];
 }
@@ -344,7 +343,7 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     if(scrollView != self.contentView) return;
     __weak typeof(self)weakSelf = self;
     [UIView animateWithDuration:0.25 animations:^{
-        NSInteger index = scrollView.contentOffset.x / HYScreenW;
+        NSInteger index = scrollView.contentOffset.x / _scaledScreenWidth;
         UIButton * btn = weakSelf.topTabbarItems[index];
         [weakSelf changeUnderLineFrame:btn];
     }];
@@ -385,9 +384,9 @@ static  CGFloat  const  kHYTopTabbarHeight = 30; //地址标签栏的高度
     [self changeUnderLineFrame:lastBtn];
     
     //2.4 设置偏移量
-    self.contentView.contentSize = (CGSize){self.tableViews.count * HYScreenW,0};
+    self.contentView.contentSize = (CGSize){self.tableViews.count * _scaledScreenWidth,0};
     CGPoint offset = self.contentView.contentOffset;
-    self.contentView.contentOffset = CGPointMake((self.tableViews.count - 1) * HYScreenW, offset.y);
+    self.contentView.contentOffset = CGPointMake((self.tableViews.count - 1) * _scaledScreenWidth, offset.y);
 
     [self setSelectedProvince:provinceName andCity:cityName andDistrict:districtName];
 }
