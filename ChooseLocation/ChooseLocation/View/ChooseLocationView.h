@@ -16,4 +16,6 @@
 
 @property (nonatomic,copy) NSString * areaCode;
 
+- (instancetype)initWithFrame:(CGRect)frame withScaling:(CGFloat)scaling;
+
 @end
