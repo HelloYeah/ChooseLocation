@@ -13,12 +13,17 @@
 @property (nonatomic,strong) ChooseLocationView *chooseLocationView;
 @property (nonatomic,strong) UIView  *cover;
 @property (weak, nonatomic) IBOutlet UILabel *addresslabel;
+@property (nonatomic, assign) CGFloat scaling;
 @end
+
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _scaling = 0.95;
     [[CitiesDataTool sharedManager] requestGetData];
     [self.view addSubview:self.cover];
     self.chooseLocationView.address = @"广东省 广州市 越秀区";
@@ -29,7 +34,8 @@
 - (IBAction)chooseLocation:(UIButton *)sender {
     
     [UIView animateWithDuration:0.25 animations:^{
-        self.view.transform =CGAffineTransformMakeScale(0.95, 0.95);
+        self.view.transform =CGAffineTransformMakeScale(_scaling, _scaling);
+        self.chooseLocationView.frame = CGRectMake(-(kScreenWidth * (1 - _scaling)), kScreenHeight - 350, kScreenWidth * (2.0 + _scaling), 350);
     }];
     self.cover.hidden = !self.cover.hidden;
     self.chooseLocationView.hidden = self.cover.hidden;
@@ -56,8 +62,7 @@
 - (ChooseLocationView *)chooseLocationView{
     
     if (!_chooseLocationView) {
-       _chooseLocationView = [[ChooseLocationView alloc]initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 350, [UIScreen mainScreen].bounds.size.width, 350)];
-      
+       _chooseLocationView = [[ChooseLocationView alloc]initWithFrame:CGRectMake(-(kScreenWidth * (1 - _scaling)), kScreenHeight, kScreenWidth * (2.0 + _scaling), 350)];
     }
     return _chooseLocationView;
 }
@@ -73,6 +78,9 @@
             [UIView animateWithDuration:0.25 animations:^{
                 weakSelf.addresslabel.text = weakSelf.chooseLocationView.address;
                 weakSelf.view.transform = CGAffineTransformIdentity;
+                weakSelf.cover.alpha = 0;
+                weakSelf.chooseLocationView.frame = CGRectMake(-(kScreenWidth * (1 - _scaling)), kScreenHeight, kScreenWidth * (2.0 + _scaling), 350);
+            } completion:^(BOOL finished) {
                 weakSelf.cover.hidden = YES;
             }];
         };
@@ -81,6 +89,7 @@
         tap.delegate = self;
         _cover.hidden = YES;
     }
+    _cover.alpha = 1;
     return _cover;
 }
 @end
